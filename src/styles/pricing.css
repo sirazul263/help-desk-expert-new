@@ -1,0 +1,213 @@
+.toggle-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0 3rem;
+}
+.toggle-label {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+.toggle-label.active {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.toggle-switch {
+  width: 52px;
+  height: 28px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-switch.on {
+  background: rgba(255, 92, 53, 0.2);
+  border-color: rgba(255, 92, 53, 0.4);
+}
+.toggle-knob {
+  width: 20px;
+  height: 20px;
+  background: var(--color-muted);
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  transition:
+    left 0.2s,
+    background 0.2s;
+}
+.toggle-switch.on .toggle-knob {
+  left: 27px;
+  background: var(--color-brand);
+}
+.save-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  background: rgba(46, 204, 138, 0.15);
+  color: var(--color-success);
+  border-radius: 20px;
+  border: 1px solid rgba(46, 204, 138, 0.3);
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.price-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2.25rem 1.75rem;
+  position: relative;
+  transition: border-color 0.25s;
+}
+.price-card.popular {
+  border-color: rgba(255, 92, 53, 0.5);
+}
+.popular-tag {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-brand);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.28rem 1rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.price-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.price-desc {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  margin-bottom: 1.25rem;
+}
+.price-amount {
+  font-family: "Syne", sans-serif;
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.price-amount sub {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  vertical-align: baseline;
+}
+.price-period {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-bottom: 1.75rem;
+}
+.feat-list {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+.feat-list li {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  padding: 0.4rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  line-height: 1.5;
+}
+.feat-list li .ok {
+  color: var(--color-success);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.feat-list li .no {
+  color: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.btn-card {
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-family: "DM Sans", sans-serif;
+  text-decoration: none;
+}
+.btn-filled {
+  background: var(--color-brand);
+  color: #fff;
+  border: none;
+}
+.btn-outlined {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.btn-card:hover {
+  opacity: 0.82;
+}
+.addons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.addon {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addon-info h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.addon-info p {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+.addon-price {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--color-brand);
+  white-space: nowrap;
+}
+.guarantee-card {
+  background: rgba(46, 204, 138, 0.06);
+  border: 1px solid rgba(46, 204, 138, 0.25);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+.guarantee-card h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+}
+.guarantee-card p {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.75;
+}

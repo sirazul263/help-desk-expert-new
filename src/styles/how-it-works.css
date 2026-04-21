@@ -1,0 +1,120 @@
+.timeline {
+  position: relative;
+  margin-top: 3.5rem;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-brand),
+    rgba(255, 92, 53, 0.1)
+  );
+}
+.t-step {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+}
+.t-num {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 92, 53, 0.12);
+  border: 2px solid rgba(255, 92, 53, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--color-brand);
+  flex-shrink: 0;
+  z-index: 1;
+  background-color: var(--color-dark);
+}
+.t-body {
+  padding-top: 0.6rem;
+}
+.t-body h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.t-body p {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  line-height: 1.75;
+  max-width: 540px;
+}
+.t-body .detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+.chip {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  color: var(--color-muted);
+}
+.onboarding-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.ob-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+.ob-card .big-num {
+  font-family: "Syne", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-brand);
+  margin-bottom: 0.3rem;
+}
+.ob-card p {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+.faq-mini {
+  margin-top: 2.5rem;
+}
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.25rem 0;
+}
+.faq-item h4 {
+  font-size: 0.975rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-item h4::after {
+  content: "+";
+  color: var(--color-brand);
+  font-size: 1.2rem;
+  font-family: "Syne", sans-serif;
+}
+.faq-item p {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
