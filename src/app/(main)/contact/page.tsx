@@ -3,8 +3,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, CheckCircle } from "lucide-react";
-import PageHero from "@/components/PageHero";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import CtaBand from "@/components/CtaBand";
+import PageHero from "@/components/PageHero";
 
 const contactItems = [
   { icon: Phone, label: "Phone", value: "+1 (800) 555-0199" },
@@ -95,101 +98,54 @@ const sourceOptions = [
   "Other",
 ];
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  company: string;
-  role: string;
-  website: string;
-  agents: string;
-  channels: string[];
-  volume: string;
-  tool: string;
-  notes: string;
-  date: string;
-  time: string;
-  timezone: string;
-  source: string;
-}
+const formSchema = z.object({
+  // Step 1
+  firstName: z.string().min(1, "First Name is required"),
+  lastName: z.string().min(1, "Last Name is required"),
+  email: z.string().email("Enter a valid email address"),
+  company: z.string().min(1, "Company Name is required"),
+  role: z.string().min(1, "Please select a role"),
+  website: z.string(),
+  // Step 2
+  agents: z.string().min(1, "Please select an agents"),
+  channels: z.array(z.string()),
+  volume: z.string().min(1, "Please select a volume"),
+  tool: z.string(),
+  notes: z.string(),
+  // Step 3
+  date: z.string().min(1, "Please select a date"),
+  time: z.string().min(1, "Please select a time"),
+  timezone: z.string().min(1, "Please select timezone"),
+  source: z.string(),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
+const step1Fields = [
+  "firstName",
+  "lastName",
+  "email",
+  "company",
+  "role",
+] as const;
+const step2Fields = ["agents", "volume"] as const;
+const step3Fields = ["date", "time", "timezone"] as const;
 
 export default function ContactPage() {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState<Record<string, boolean>>({});
-  const [form, setForm] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    company: "",
-    role: "",
-    website: "",
-    agents: "",
-    channels: ["Live Chat"],
-    volume: "",
-    tool: "",
-    notes: "",
-    date: "",
-    time: "",
-    timezone: "",
-    source: "",
-  });
 
-  const update = (field: keyof FormData, value: string | string[]) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => ({ ...prev, [field]: false }));
-  };
-
-  const toggleChannel = (ch: string) => {
-    setForm((prev) => ({
-      ...prev,
-      channels: prev.channels.includes(ch)
-        ? prev.channels.filter((c) => c !== ch)
-        : [...prev.channels, ch],
-    }));
-  };
-
-  const validateStep1 = () => {
-    const errs: Record<string, boolean> = {};
-    if (!form.firstName.trim()) errs.firstName = true;
-    if (!form.lastName.trim()) errs.lastName = true;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = true;
-    if (!form.company.trim()) errs.company = true;
-    if (!form.role) errs.role = true;
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
-
-  const validateStep2 = () => {
-    const errs: Record<string, boolean> = {};
-    if (!form.agents) errs.agents = true;
-    if (!form.volume) errs.volume = true;
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
-
-  const validateStep3 = () => {
-    const errs: Record<string, boolean> = {};
-    if (!form.date) errs.date = true;
-    if (!form.time) errs.time = true;
-    if (!form.timezone) errs.timezone = true;
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
-
-  const next = (nextStep: number) => {
-    if (nextStep === 2 && !validateStep1()) return;
-    if (nextStep === 3 && !validateStep2()) return;
-    setStep(nextStep);
-  };
-
-  const submit = () => {
-    if (!validateStep3()) return;
-    setSubmitted(true);
-  };
-
-  const reset = () => {
-    setForm({
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    watch,
+    setValue,
+    reset: resetForm,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
@@ -205,10 +161,40 @@ export default function ContactPage() {
       time: "",
       timezone: "",
       source: "",
-    });
+    },
+    mode: "onTouched",
+  });
+
+  const form = watch();
+
+  const toggleChannel = (ch: string) => {
+    const current = form.channels ?? ["Live Chat"];
+    const updated = current.includes(ch)
+      ? current.filter((c) => c !== ch)
+      : [...current, ch];
+    setValue("channels", updated);
+  };
+
+  const next = async (nextStep: number) => {
+    let valid = false;
+    if (nextStep === 2) valid = await trigger([...step1Fields]);
+    if (nextStep === 3) valid = await trigger([...step2Fields]);
+    if (valid) setStep(nextStep);
+  };
+
+  const onSubmit = () => {
+    setSubmitted(true);
+  };
+
+  const submitStep3 = async () => {
+    const valid = await trigger([...step3Fields]);
+    if (valid) handleSubmit(onSubmit)();
+  };
+
+  const reset = () => {
+    resetForm();
     setStep(1);
     setSubmitted(false);
-    setErrors({});
   };
 
   const progress = submitted ? 100 : step === 1 ? 33 : step === 2 ? 66 : 100;
@@ -216,7 +202,9 @@ export default function ContactPage() {
 
   const inputCls = (field: string) =>
     `w-full py-[0.62rem] px-[0.9rem] bg-input-bg border rounded-lg text-text text-[0.9rem] font-[var(--font-dm)] outline-none transition-colors focus:border-[rgba(255,92,53,0.5)] appearance-none ${
-      errors[field] ? "border-error" : "border-input-border"
+      field && errors[field as keyof FormData]
+        ? "border-error"
+        : "border-input-border"
     }`;
 
   return (
@@ -256,9 +244,7 @@ export default function ContactPage() {
             <div className="trust-items">
               {trustItems.map((item) => (
                 <div key={item} className="trust-item">
-                  <span className="trust-item-icon">
-                    <CheckCircle />
-                  </span>
+                  <span className="trust-item-icon"></span>
                   {item}
                 </div>
               ))}
@@ -306,13 +292,12 @@ export default function ContactPage() {
                     </label>
                     <input
                       className={inputCls("firstName")}
-                      value={form.firstName}
-                      onChange={(e) => update("firstName", e.target.value)}
+                      {...register("firstName")}
                       placeholder="Sarah"
                     />
                     {errors.firstName && (
                       <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                        Required
+                        {errors.firstName.message}
                       </div>
                     )}
                   </div>
@@ -322,13 +307,12 @@ export default function ContactPage() {
                     </label>
                     <input
                       className={inputCls("lastName")}
-                      value={form.lastName}
-                      onChange={(e) => update("lastName", e.target.value)}
+                      {...register("lastName")}
                       placeholder="Johnson"
                     />
                     {errors.lastName && (
                       <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                        Required
+                        {errors.lastName.message}
                       </div>
                     )}
                   </div>
@@ -341,13 +325,12 @@ export default function ContactPage() {
                   <input
                     className={inputCls("email")}
                     type="email"
-                    value={form.email}
-                    onChange={(e) => update("email", e.target.value)}
+                    {...register("email")}
                     placeholder="sarah@yourcompany.com"
                   />
                   {errors.email && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Enter a valid email address
+                      {errors.email.message}
                     </div>
                   )}
                 </div>
@@ -357,13 +340,12 @@ export default function ContactPage() {
                   </label>
                   <input
                     className={inputCls("company")}
-                    value={form.company}
-                    onChange={(e) => update("company", e.target.value)}
+                    {...register("company")}
                     placeholder="Acme Inc."
                   />
                   {errors.company && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Required
+                      {errors.company.message}
                     </div>
                   )}
                 </div>
@@ -371,11 +353,7 @@ export default function ContactPage() {
                   <label>
                     Your Role <span className="text-brand">*</span>
                   </label>
-                  <select
-                    className={inputCls("role")}
-                    value={form.role}
-                    onChange={(e) => update("role", e.target.value)}
-                  >
+                  <select className={inputCls("role")} {...register("role")}>
                     <option value="">Select your role...</option>
                     {roleOptions.map((r) => (
                       <option key={r}>{r}</option>
@@ -383,7 +361,7 @@ export default function ContactPage() {
                   </select>
                   {errors.role && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Please select a role
+                      {errors.role.message}
                     </div>
                   )}
                 </div>
@@ -391,8 +369,7 @@ export default function ContactPage() {
                   <label>Company website (optional)</label>
                   <input
                     className={inputCls("")}
-                    value={form.website}
-                    onChange={(e) => update("website", e.target.value)}
+                    {...register("website")}
                     placeholder="https://yourcompany.com"
                   />
                 </div>
@@ -414,8 +391,7 @@ export default function ContactPage() {
                   </label>
                   <select
                     className={inputCls("agents")}
-                    value={form.agents}
-                    onChange={(e) => update("agents", e.target.value)}
+                    {...register("agents")}
                   >
                     <option value="">Select...</option>
                     {agentOptions.map((a) => (
@@ -424,7 +400,7 @@ export default function ContactPage() {
                   </select>
                   {errors.agents && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Please select
+                      {errors.agents.message}
                     </div>
                   )}
                 </div>
@@ -450,8 +426,7 @@ export default function ContactPage() {
                   </label>
                   <select
                     className={inputCls("volume")}
-                    value={form.volume}
-                    onChange={(e) => update("volume", e.target.value)}
+                    {...register("volume")}
                   >
                     <option value="">Select...</option>
                     {volumeOptions.map((v) => (
@@ -460,17 +435,13 @@ export default function ContactPage() {
                   </select>
                   {errors.volume && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Please select
+                      {errors.volume.message}
                     </div>
                   )}
                 </div>
                 <div className="field">
                   <label>Current helpdesk tool</label>
-                  <select
-                    className={inputCls("")}
-                    value={form.tool}
-                    onChange={(e) => update("tool", e.target.value)}
-                  >
+                  <select className={inputCls("")} {...register("tool")}>
                     <option value="">Select if applicable...</option>
                     {toolOptions.map((t) => (
                       <option key={t}>{t}</option>
@@ -481,8 +452,7 @@ export default function ContactPage() {
                   <label>Anything we should know?</label>
                   <textarea
                     className={`${inputCls("")} resize-y min-h-[110px]`}
-                    value={form.notes}
-                    onChange={(e) => update("notes", e.target.value)}
+                    {...register("notes")}
                     placeholder="e.g. We're launching in 2 weeks and need urgent coverage, or we have specific compliance requirements..."
                   />
                 </div>
@@ -508,12 +478,11 @@ export default function ContactPage() {
                     type="date"
                     min={minDate}
                     className={inputCls("date")}
-                    value={form.date}
-                    onChange={(e) => update("date", e.target.value)}
+                    {...register("date")}
                   />
                   {errors.date && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Please select a date
+                      {errors.date.message}
                     </div>
                   )}
                 </div>
@@ -521,11 +490,7 @@ export default function ContactPage() {
                   <label>
                     Preferred time slot <span className="text-brand">*</span>
                   </label>
-                  <select
-                    className={inputCls("time")}
-                    value={form.time}
-                    onChange={(e) => update("time", e.target.value)}
-                  >
+                  <select className={inputCls("time")} {...register("time")}>
                     <option value="">Select a time...</option>
                     {timeOptions.map((t) => (
                       <option key={t}>{t}</option>
@@ -533,7 +498,7 @@ export default function ContactPage() {
                   </select>
                   {errors.time && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Please select a time
+                      {errors.time.message}
                     </div>
                   )}
                 </div>
@@ -543,8 +508,7 @@ export default function ContactPage() {
                   </label>
                   <select
                     className={inputCls("timezone")}
-                    value={form.timezone}
-                    onChange={(e) => update("timezone", e.target.value)}
+                    {...register("timezone")}
                   >
                     <option value="">Select...</option>
                     {tzOptions.map((tz) => (
@@ -553,17 +517,13 @@ export default function ContactPage() {
                   </select>
                   {errors.timezone && (
                     <div className="text-[0.75rem] text-error mt-[0.3rem]">
-                      Please select
+                      {errors.timezone.message}
                     </div>
                   )}
                 </div>
                 <div className="field">
                   <label>How did you hear about us?</label>
-                  <select
-                    className={inputCls("")}
-                    value={form.source}
-                    onChange={(e) => update("source", e.target.value)}
-                  >
+                  <select className={inputCls("")} {...register("source")}>
                     <option value="">Select...</option>
                     {sourceOptions.map((s) => (
                       <option key={s}>{s}</option>
@@ -574,7 +534,7 @@ export default function ContactPage() {
                   <button onClick={() => setStep(2)} className="btn-back">
                     ← Back
                   </button>
-                  <button onClick={submit} className="btn-next">
+                  <button onClick={submitStep3} className="btn-next">
                     Book My Consultation →
                   </button>
                 </div>

@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Syne, DM_Sans } from "next/font/google";
 import "../styles/globals.css";
+import "../styles/auth.css";
+import "../styles/dashboard.css";
 import "../styles/services.css";
 import "../styles/pricing.css";
 import "../styles/how-it-works.css";
 import "../styles/faq.css";
 import "../styles/contact.css";
 import "../styles/about.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import NextTopLoader from "nextjs-toploader";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -41,9 +42,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${syne.variable} ${dmSans.variable}`}>
       <body>
-        <Navbar />
+        <NextTopLoader color="#ff5c35" height={2} showSpinner={false} />
         {children}
-        <Footer />
       </body>
     </html>
   );

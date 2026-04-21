@@ -43,7 +43,7 @@ export default function Navbar() {
       </ul>
 
       <div className="nav-ctas">
-        <Link href="/contact" className="btn-ghost">
+        <Link href="/login" className="btn-ghost">
           Log In
         </Link>
         <Link href="/contact" className="btn-primary">

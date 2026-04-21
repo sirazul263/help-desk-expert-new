@@ -1,0 +1,232 @@
+/* ── Dashboard layout ──────────────────────────────── */
+
+.dash-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-dark);
+}
+
+/* ── Sidebar ── */
+.dash-sidebar {
+  width: 260px;
+  background: var(--color-mid);
+  border-right: 1px solid var(--color-border);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.dash-logo {
+  font-family: var(--font-syne);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+}
+.dash-logo span {
+  color: var(--color-brand);
+}
+
+.dash-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.dash-nav-link {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.dash-nav-link:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+}
+
+.dash-sidebar-footer {
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+.dash-user-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.dash-user-email {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  margin-bottom: 0.75rem;
+}
+.dash-logout-btn {
+  padding: 0.4rem 0.85rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+  font-family: inherit;
+}
+.dash-logout-btn:hover {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+/* ── Main content ── */
+.dash-main {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  overflow-y: auto;
+}
+
+.dash-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.dash-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Stat cards ── */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.dash-stat-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.dash-stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: var(--font-syne);
+  color: var(--color-brand);
+}
+.dash-stat-value-sm {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+.dash-stat-label {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Badges ── */
+.dash-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.dash-badge-admin {
+  background: rgba(255, 92, 53, 0.12);
+  color: var(--color-brand);
+}
+.dash-badge-user {
+  background: rgba(46, 204, 138, 0.12);
+  color: var(--color-success);
+}
+.dash-badge-active {
+  background: rgba(46, 204, 138, 0.12);
+  color: var(--color-success);
+}
+.dash-badge-inactive {
+  background: rgba(255, 79, 79, 0.12);
+  color: var(--color-error);
+}
+
+/* ── Table ── */
+.dash-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.dash-table th {
+  text-align: left;
+  padding: 0.7rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  background: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
+}
+.dash-table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.dash-table tr:last-child td {
+  border-bottom: none;
+}
+.dash-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .dash-layout {
+    flex-direction: column;
+  }
+  .dash-sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  .dash-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .dash-sidebar-footer {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .dash-user-email {
+    margin-bottom: 0;
+  }
+  .dash-main {
+    padding: 1.25rem;
+  }
+}
