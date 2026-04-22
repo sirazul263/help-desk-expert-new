@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const authRoutes = ["/login", "/register", "/reset-password"];
+const authRoutes = ["/login", "/reset-password"];
 const adminRoutes = ["/admin"];
 const userRoutes = ["/dashboard"];
 
@@ -37,11 +37,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/login",
-    "/register",
-    "/reset-password",
-    "/dashboard/:path*",
-    "/admin/:path*",
-  ],
+  matcher: ["/login", "/reset-password", "/dashboard/:path*", "/admin/:path*"],
 };

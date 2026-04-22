@@ -9,7 +9,10 @@ import "../styles/how-it-works.css";
 import "../styles/faq.css";
 import "../styles/contact.css";
 import "../styles/about.css";
+import "../styles/legal.css";
+import "../styles/admin.css";
 import NextTopLoader from "nextjs-toploader";
+import ScrollToTop from "../components/ScrollToTop";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -40,10 +43,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${dmSans.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${syne.variable} ${dmSans.variable}`}
+    >
       <body>
         <NextTopLoader color="#ff5c35" height={2} showSpinner={false} />
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );
