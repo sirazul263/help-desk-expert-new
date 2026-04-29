@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,9 +16,25 @@ const navItems = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Navbar() {
+type NavUser = {
+  name?: string;
+  image?: string;
+  role: string;
+};
+
+export default function Navbar({ user }: { user?: NavUser | null }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const dashboardHref = user?.role === "ADMIN" ? "/admin" : "/dashboard";
+  const initials = user?.name
+    ? user.name
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "";
 
   return (
     <nav>
@@ -43,12 +60,38 @@ export default function Navbar() {
       </ul>
 
       <div className="nav-ctas">
-        <Link href="/login" className="btn-ghost">
-          Log In
-        </Link>
-        <Link href="/contact" className="btn-primary">
-          Get Started
-        </Link>
+        {user ? (
+          <Link
+            href={dashboardHref}
+            className="flex items-center gap-2 pl-1 pr-4 py-1 border border-border rounded-full bg-white/[0.04] hover:bg-white/[0.08] transition-colors cursor-pointer"
+          >
+            {user.image ? (
+              <Image
+                src={user.image}
+                alt={user.name ?? "User"}
+                width={32}
+                height={32}
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            ) : (
+              <span className="w-8 h-8 rounded-full bg-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
+                {initials}
+              </span>
+            )}
+            <span className="text-[0.85rem] font-medium text-text whitespace-nowrap">
+              {user.name}
+            </span>
+          </Link>
+        ) : (
+          <>
+            <Link href="/login" className="btn-ghost">
+              Log In
+            </Link>
+            <Link href="/contact" className="btn-primary">
+              Get Started
+            </Link>
+          </>
+        )}
         <button
           className="md:hidden nav-toggle"
           onClick={() => setMobileOpen(!mobileOpen)}

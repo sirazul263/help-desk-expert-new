@@ -16,11 +16,16 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(dest, request.url));
   }
 
-  // Protect user routes — must be logged in
-  if (userRoutes.some((r) => pathname.startsWith(r)) && !session?.user) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
+  // Protect user routes — must be logged in, and NOT admin
+  if (userRoutes.some((r) => pathname.startsWith(r))) {
+    if (!session?.user) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    if (session.user.role === "ADMIN") {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
   }
 
   // Protect admin routes — must be ADMIN

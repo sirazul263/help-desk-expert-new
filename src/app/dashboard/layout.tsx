@@ -9,6 +9,7 @@ export default async function DashboardLayout({
 }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
+  if (session.user.role === "ADMIN") redirect("/admin");
 
   return (
     <div className="dash-layout">
@@ -32,8 +33,17 @@ export default async function DashboardLayout({
         <div className="dash-sidebar-footer">
           <p className="dash-user-name">{session.user.name}</p>
           <p className="dash-user-email">{session.user.email}</p>
-          <form action={async () => { "use server"; const { signOut } = await import("@/lib/auth"); await signOut({ redirect: false }); redirect("/login"); }}>
-            <button type="submit" className="dash-logout-btn">Sign out</button>
+          <form
+            action={async () => {
+              "use server";
+              const { signOut } = await import("@/lib/auth");
+              await signOut({ redirect: false });
+              redirect("/login");
+            }}
+          >
+            <button type="submit" className="dash-logout-btn">
+              Sign out
+            </button>
           </form>
         </div>
       </aside>

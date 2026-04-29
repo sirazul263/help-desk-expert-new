@@ -64,10 +64,12 @@ model User {
     updatedAt     DateTime  @updatedAt @map("updated_at")
     lastLogin     DateTime? @map("last_login")
 
-    accounts    Account[]
-    sessions    Session[]
-    resetTokens ResetToken[]
-    invoices    Invoice[]
+    accounts          Account[]
+    sessions          Session[]
+    resetTokens       ResetToken[]
+    invoices          Invoice[]
+    chatConversations ChatConversation[]
+    adminMessages     ChatMessage[]
 
     @@map("users")
 }
@@ -129,4 +131,43 @@ model InvoiceItem {
 
     @@index([invoiceId])
     @@map("invoice_items")
+}
+
+// ── Chat ──────────────────────────────────────────────
+model ChatConversation {
+    id        String   @id @default(cuid())
+    userId    String?  @map("user_id")
+    email     String
+    name      String   @default("")
+    status    String   @default("open") // "open" | "closed"
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    user     User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+    messages ChatMessage[]
+
+    @@index([email])
+    @@index([status])
+    @@map("chat_conversations")
+}
+
+model ChatMessage {
+    id             String   @id @default(cuid())
+    conversationId String   @map("conversation_id")
+    sender         String // "user" | "admin"
+    body           String   @default("")
+    fileUrl        String?  @map("file_url")
+    fileName       String?  @map("file_name")
+    fileType       String?  @map("file_type")
+    adminId        String?  @map("admin_id")
+    adminName      String?  @map("admin_name")
+    isRead         Boolean  @default(false) @map("is_read")
+    createdAt      DateTime @default(now()) @map("created_at")
+
+    conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    admin        User?            @relation(fields: [adminId], references: [id], onDelete: SetNull)
+
+    @@index([conversationId])
+    @@index([adminId])
+    @@map("chat_messages")
 }
