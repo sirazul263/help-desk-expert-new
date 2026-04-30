@@ -1,0 +1,20 @@
+# Render service config for the Socket.IO server only.
+# Replace placeholders (repo, branch) when creating the service or link via the Render UI.
+services:
+  - type: web
+    name: helpdesk-socketio
+    env: node
+    plan: free
+    # If you want Render to connect to your Git repo, set the repo/branch here.
+    # repo: https://github.com/your-org/your-repo
+    # branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # DATABASE_URL: set this in the Render dashboard to your Postgres connection string
+      # NEXT_PUBLIC_SOCKET_URL: set this to the public URL Render assigns to this service
+      # Example envVar entries are added in DEPLOY_RENDER.md
+    # Optional: health check path
+    healthCheckPath: /api/health
