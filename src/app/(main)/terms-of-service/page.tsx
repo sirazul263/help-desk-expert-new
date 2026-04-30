@@ -284,8 +284,8 @@ export default function TermsOfServicePage() {
             <p>
               You may cancel your subscription at any time by providing{" "}
               <strong>30 days&apos; written notice</strong> to{" "}
-              <a href="mailto:hello@helpdeskexpert.com">
-                hello@helpdeskexpert.com
+              <a href="mailto:contact@helpdeskexpert.com">
+                contact@helpdeskexpert.com
               </a>
               . You will continue to receive services and be billed during the
               notice period. No penalties apply for cancellation with proper
