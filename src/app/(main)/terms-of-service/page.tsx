@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -59,7 +59,7 @@ export default function TermsOfServicePage() {
             Terms of <em>Service</em>
           </h1>
           <p className="hero-desc">
-            These Terms govern your access to and use of HelpDesk Expert
+            These Terms govern your access to and use of HelpDeskXpert
             services. Please read them carefully before using our platform or
             engaging our agents.
           </p>
@@ -128,7 +128,7 @@ export default function TermsOfServicePage() {
             <p>
               These Terms constitute a legally binding agreement between you
               (&quot;Client&quot;, &quot;you&quot;, &quot;your&quot;) and{" "}
-              <strong>HelpDesk Expert Ltd.</strong> (&quot;HelpDesk
+              <strong>HelpDeskXpert Ltd.</strong> (&quot;HelpDesk
               Expert&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;).
             </p>
             <p>
@@ -144,7 +144,7 @@ export default function TermsOfServicePage() {
             <div className="section-num">Section 02</div>
             <h2>Our Services</h2>
             <p>
-              HelpDesk Expert provides outsourced customer support agent
+              HelpDeskXpert provides outsourced customer support agent
               services to SaaS and technology companies. Our services include,
               but are not limited to:
             </p>
@@ -166,7 +166,7 @@ export default function TermsOfServicePage() {
             <p>
               Specific service levels, deliverables, agent counts, and coverage
               hours are defined in the individual Service Order or Statement of
-              Work agreed between you and HelpDesk Expert. These Terms apply to
+              Work agreed between you and HelpDeskXpert. These Terms apply to
               all such agreements.
             </p>
 
@@ -371,14 +371,14 @@ export default function TermsOfServicePage() {
             <p>
               You retain all ownership rights to your data, knowledge base
               content, brand assets, and materials you provide to us. You grant
-              HelpDesk Expert a limited, non-exclusive licence to use these
+              HelpDeskXpert a limited, non-exclusive licence to use these
               materials solely for the purpose of delivering our services to
               you.
             </p>
 
             <h3>Our content</h3>
             <p>
-              HelpDesk Expert retains all rights to our platform, software,
+              HelpDeskXpert retains all rights to our platform, software,
               website, methodology, training materials, and agent management
               systems. These Terms do not grant you any rights to our
               intellectual property beyond what is necessary to receive our
@@ -434,7 +434,7 @@ export default function TermsOfServicePage() {
             <h2>Warranties &amp; Disclaimers</h2>
 
             <h3>Our warranties</h3>
-            <p>HelpDesk Expert warrants that:</p>
+            <p>HelpDeskXpert warrants that:</p>
             <ul>
               <li>
                 We will perform our services with reasonable skill and care
@@ -474,7 +474,7 @@ export default function TermsOfServicePage() {
                 CLAIM.
               </p>
             </div>
-            <p>In no event will HelpDesk Expert be liable for:</p>
+            <p>In no event will HelpDeskXpert be liable for:</p>
             <ul>
               <li>
                 Loss of profits, revenue, goodwill, or anticipated savings
@@ -487,7 +487,7 @@ export default function TermsOfServicePage() {
               </li>
             </ul>
             <p>
-              These limitations apply even if HelpDesk Expert has been advised
+              These limitations apply even if HelpDeskXpert has been advised
               of the possibility of such damages. Some jurisdictions do not
               allow certain limitations of liability, so these limitations may
               not apply to you in full.
@@ -499,7 +499,7 @@ export default function TermsOfServicePage() {
             <div className="section-num">Section 11</div>
             <h2>Indemnification</h2>
             <p>
-              You agree to indemnify, defend, and hold harmless HelpDesk Expert
+              You agree to indemnify, defend, and hold harmless HelpDeskXpert
               and its officers, directors, employees, agents, and contractors
               from and against any claims, liabilities, damages, losses, and
               expenses (including reasonable legal fees) arising out of or
@@ -570,7 +570,7 @@ export default function TermsOfServicePage() {
               You agree that any dispute resolution proceedings will be
               conducted on an individual basis only. You waive any right to
               participate in class action lawsuits or class-wide arbitration
-              against HelpDesk Expert.
+              against HelpDeskXpert.
             </p>
           </div>
 
@@ -582,7 +582,7 @@ export default function TermsOfServicePage() {
             <h3>Entire agreement</h3>
             <p>
               These Terms, together with any applicable Service Order,
-              constitute the entire agreement between you and HelpDesk Expert
+              constitute the entire agreement between you and HelpDeskXpert
               and supersede all prior agreements relating to the subject matter.
             </p>
 
@@ -628,7 +628,7 @@ export default function TermsOfServicePage() {
               For questions about these Terms, please contact our legal team:
             </p>
             <div className="legal-contact-card">
-              <h4>HelpDesk Expert — Legal Team</h4>
+              <h4>HelpDeskXpert — Legal Team</h4>
               <div className="contact-row">
                 <svg viewBox="0 0 24 24">
                   <rect x="2" y="4" width="20" height="16" rx="2" />

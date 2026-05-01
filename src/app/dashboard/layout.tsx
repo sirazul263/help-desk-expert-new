@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+﻿import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ export default async function DashboardLayout({
     <div className="dash-layout">
       <aside className="dash-sidebar">
         <Link href="/" className="dash-logo">
-          HelpDesk<span>Expert</span>
+          HelpDesk<span>Xpert</span>
         </Link>
 
         <nav className="dash-nav">

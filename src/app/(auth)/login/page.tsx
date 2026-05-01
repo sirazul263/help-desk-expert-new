@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -140,7 +140,7 @@ export default function LoginPage() {
       <div className="auth-left-panel">
         <div className="brand-side">
           <div className="brand-logo">
-            HelpDesk<span>Expert</span>
+            HelpDesk<span>Xpert</span>
           </div>
           <h1>
             Your support team,
@@ -214,7 +214,7 @@ export default function LoginPage() {
       <div className="auth-right-panel">
         <div className="auth-box">
           <div className="auth-logo">
-            HelpDesk<span>Expert</span>
+            HelpDesk<span>Xpert</span>
           </div>
 
           {/* TABS */}
@@ -240,7 +240,7 @@ export default function LoginPage() {
             <div>
               <h2 className="auth-title">Welcome back</h2>
               <p className="auth-sub">
-                Sign in to your HelpDesk Expert account.
+                Sign in to your HelpDeskXpert account.
               </p>
 
               {serverError && (
@@ -392,7 +392,7 @@ export default function LoginPage() {
             <div>
               <h2 className="auth-title">Create your account</h2>
               <p className="auth-sub">
-                Get started with HelpDesk Expert — free to try.
+                Get started with HelpDeskXpert — free to try.
               </p>
 
               {serverError && (

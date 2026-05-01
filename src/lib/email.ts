@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+﻿import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -19,7 +19,7 @@ interface SendMailOptions {
 export async function sendMail({ to, subject, html }: SendMailOptions) {
   return transporter.sendMail({
     from:
-      process.env.SMTP_FROM || "HelpDesk Expert <noreply@helpdeskexpert.com>",
+      process.env.SMTP_FROM || "HelpDeskXpert <noreply@helpdeskexpert.com>",
     to,
     subject,
     html,
@@ -37,7 +37,7 @@ export function buildOTPEmail(name: string, otp: string): string {
       </div>
       <p style="color: #999; font-size: 13px;">If you didn't request this, you can safely ignore this email.</p>
       <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
-      <p style="color: #bbb; font-size: 12px; text-align: center;">HelpDesk Expert</p>
+      <p style="color: #bbb; font-size: 12px; text-align: center;">HelpDeskXpert</p>
     </div>
   `;
 }

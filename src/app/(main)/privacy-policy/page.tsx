@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
             <h2>Overview</h2>
             <div className="highlight-box brand">
               <p>
-                HelpDesk Expert (&quot;we&quot;, &quot;us&quot;,
+                HelpDeskXpert (&quot;we&quot;, &quot;us&quot;,
                 &quot;our&quot;) is committed to protecting your personal
                 information. This Privacy Policy applies to all services offered
                 at <strong>www.helpdeskexpert.com</strong> and explains how we
@@ -132,7 +132,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="highlight-box">
               <p>
-                <strong>HelpDesk Expert Ltd.</strong>
+                <strong>HelpDeskXpert Ltd.</strong>
                 <br />
                 www.helpdeskexpert.com
                 <br />
@@ -520,7 +520,7 @@ export default function PrivacyPolicyPage() {
             <div className="section-num">Section 10</div>
             <h2>International Data Transfers</h2>
             <p>
-              HelpDesk Expert operates globally. Your personal data may be
+              HelpDeskXpert operates globally. Your personal data may be
               transferred to and processed in countries other than your own.
               When we transfer personal data outside the European Economic Area
               (EEA) or UK, we ensure appropriate safeguards are in place,
@@ -572,7 +572,7 @@ export default function PrivacyPolicyPage() {
               Privacy Policy or your personal data, please reach out to us:
             </p>
             <div className="legal-contact-card">
-              <h4>HelpDesk Expert — Privacy Team</h4>
+              <h4>HelpDeskXpert — Privacy Team</h4>
               <div className="contact-row">
                 <svg viewBox="0 0 24 24">
                   <rect x="2" y="4" width="20" height="16" rx="2" />

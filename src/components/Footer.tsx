@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const serviceLinks = [
   { href: "/services?key=live-chat", label: "Live Chat Support" },
@@ -28,7 +28,7 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-brand">
           <Link href="/" className="logo">
-            HelpDesk<span>Expert</span>
+            HelpDesk<span>Xpert</span>
           </Link>
           <p>
             World-class outsourced customer support agents for SaaS companies.
@@ -67,7 +67,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© 2026 HelpDesk Expert. All rights reserved.</p>
+        <p>© 2026 HelpDeskXpert. All rights reserved.</p>
         <div className="footer-socials">
           <a
             href="https://web.facebook.com/HelpDeskXpert"
