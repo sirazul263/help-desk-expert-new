@@ -128,8 +128,7 @@ export default function TermsOfServicePage() {
             <p>
               These Terms constitute a legally binding agreement between you
               (&quot;Client&quot;, &quot;you&quot;, &quot;your&quot;) and{" "}
-              <strong>HelpDeskXpert Ltd.</strong> (&quot;HelpDesk
-              Xpert&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;).
+              <strong>HelpDeskXpert Ltd.</strong> (&quot;HelpDeskXpert&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;).
             </p>
             <p>
               If you are accepting these Terms on behalf of a company or other
