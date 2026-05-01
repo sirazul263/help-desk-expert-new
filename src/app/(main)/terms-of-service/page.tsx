@@ -129,7 +129,7 @@ export default function TermsOfServicePage() {
               These Terms constitute a legally binding agreement between you
               (&quot;Client&quot;, &quot;you&quot;, &quot;your&quot;) and{" "}
               <strong>HelpDeskXpert Ltd.</strong> (&quot;HelpDesk
-              Expert&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;).
+              Xpert&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;).
             </p>
             <p>
               If you are accepting these Terms on behalf of a company or other
@@ -349,8 +349,7 @@ export default function TermsOfServicePage() {
                 authorisation
               </li>
               <li>
-                Engage in activities that damage the reputation of HelpDesk
-                Expert
+                Engage in activities that damage the reputation of HelpDeskXpert
               </li>
             </ul>
             <div className="highlight-box warning">

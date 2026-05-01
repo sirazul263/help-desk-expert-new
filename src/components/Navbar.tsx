@@ -39,7 +39,7 @@ export default function Navbar({ user }: { user?: NavUser | null }) {
   return (
     <nav>
       <Link href="/" className="logo">
-        HelpDesk<span className="text-brand">Expert</span>
+        HelpDesk<span className="text-brand">Xpert</span>
       </Link>
 
       <ul className="hidden nav-links">
