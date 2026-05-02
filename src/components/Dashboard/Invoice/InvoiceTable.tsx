@@ -117,6 +117,18 @@ export default function InvoiceTable({
                 <option>Paid</option>
                 <option>Overdue</option>
               </select>
+              {(search || statusFilter) && (
+                <button
+                  className="filter-clear-btn"
+                  onClick={() => {
+                    setSearch("");
+                    setStatusFilter("");
+                    setPage(0);
+                  }}
+                >
+                  Clear
+                </button>
+              )}
             </>
           )}
         </div>

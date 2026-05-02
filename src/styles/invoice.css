@@ -1,0 +1,186 @@
+.inv-doc {
+  background: #ffffff;
+  color: #1a1a2e;
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+  max-width: 760px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+}
+.inv-doc-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, #ff5c35, #ff2d55) 1;
+}
+.inv-contact-info {
+  display: block;
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.5rem;
+  line-height: 1.7;
+}
+.inv-brand {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #0e0f13;
+}
+.inv-brand span {
+  color: #ff5c35;
+}
+.inv-brand small {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-family: "DM Sans", sans-serif;
+  color: #777;
+  margin-top: 3px;
+}
+.inv-meta-block {
+  text-align: right;
+}
+.inv-meta-block .inv-num {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #0e0f13;
+}
+.inv-meta-block p {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.2rem;
+  line-height: 1.7;
+}
+.inv-status-pill {
+  display: inline-block;
+  padding: 0.25rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.4rem;
+}
+.inv-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.75rem;
+}
+.inv-from-to {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ff5c35;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.inv-party-name {
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: #0e0f13;
+  margin-bottom: 0.25rem;
+}
+.inv-party-detail {
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.75;
+}
+.inv-note-block {
+  background: #fff8f5;
+  border-left: 3px solid #ff5c35;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.82rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+.inv-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+.inv-tbl thead tr {
+  background: #f5f5f7;
+}
+.inv-tbl th {
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #777;
+  font-weight: 600;
+}
+.inv-tbl td {
+  padding: 0.62rem 0.85rem;
+  border-bottom: 1px solid #eeeeee;
+  font-size: 0.855rem;
+  color: #333;
+}
+.inv-tbl tbody tr:last-child td {
+  border-bottom: none;
+}
+.inv-tbl .td-right {
+  text-align: right;
+}
+.inv-tbl .td-amt {
+  font-weight: 600;
+  text-align: right;
+}
+.inv-totals-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.75rem;
+}
+.inv-totals-inner {
+  width: 220px;
+}
+.inv-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  font-size: 0.875rem;
+  color: #555;
+}
+.inv-total-row.grand-total {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #0e0f13;
+  border-top: 2px solid #ff5c35;
+  padding-top: 0.5rem;
+  margin-top: 0.3rem;
+}
+.inv-footer-bar {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #eeeeee;
+  font-size: 0.76rem;
+  text-align: center;
+  line-height: 1.8;
+}
+.inv-bank-info {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.82rem;
+  color: #555;
+}
+.inv-bank-info strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ff5c35;
+  margin-bottom: 0.3rem;
+}

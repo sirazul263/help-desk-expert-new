@@ -11,7 +11,7 @@ import PageHero from "@/components/PageHero";
 
 const contactItems = [
   { icon: Phone, label: "Phone", value: "+1 (800) 555-0199" },
-  { icon: Mail, label: "Email", value: "hello@helpdeskexpert.com" },
+  { icon: Mail, label: "Email", value: "contact@helpdeskexpert.com" },
   {
     icon: MapPin,
     label: "Headquarters",
@@ -599,7 +599,7 @@ export default function ContactPage() {
 
       <CtaBand
         title="Prefer to just send an email?"
-        description="Reach us directly at hello@helpdeskexpert.com — we respond within 2 business hours."
+        description="Reach us directly at contact@helpdeskexpert.com — we respond within 2 business hours."
         primaryLabel="Contact Us →"
         primaryHref="/contact"
       />

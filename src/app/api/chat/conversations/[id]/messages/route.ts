@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { pusher } from "@/lib/pusher";
 
 // GET messages for a conversation (with polling support via ?after=lastMessageId)
 export async function GET(
@@ -69,6 +70,11 @@ export async function POST(
     where: { id },
     data: { updatedAt: new Date() },
   });
+
+  await Promise.all([
+    pusher.trigger(`chat-${id}`, "new-message", message),
+    pusher.trigger("admin", "conversation-updated", { conversationId: id }),
+  ]);
 
   return NextResponse.json(message);
 }

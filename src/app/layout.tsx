@@ -12,6 +12,7 @@ import "../styles/about.css";
 import "../styles/legal.css";
 import "../styles/admin.css";
 import "../styles/chat.css";
+import "../styles/invoice.css";
 import NextTopLoader from "nextjs-toploader";
 import ScrollToTop from "../components/ScrollToTop";
 

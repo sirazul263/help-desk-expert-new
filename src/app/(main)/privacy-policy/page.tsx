@@ -136,7 +136,7 @@ export default function PrivacyPolicyPage() {
                 <br />
                 www.helpdeskexpert.com
                 <br />
-                hello@helpdeskexpert.com
+                contact@helpdeskexpert.com
                 <br />
                 +1 (800) 555-0199
               </p>

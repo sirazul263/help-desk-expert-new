@@ -23,6 +23,9 @@ export async function GET(req: NextRequest) {
           messages: { where: { sender: "user", isRead: false } },
         },
       },
+      user: {
+        select: { id: true },
+      },
     },
     orderBy: { updatedAt: "desc" },
   });

@@ -499,6 +499,153 @@
   gap: 8px;
 }
 
+/* ── Admin chat message rows ────────────────────────── */
+
+.achat-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.achat-row.outgoing {
+  flex-direction: row-reverse;
+}
+
+/* Avatar circle */
+.achat-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: var(--font-syne);
+  letter-spacing: 0.02em;
+}
+.achat-avatar-user {
+  background: rgba(157, 160, 179, 0.18);
+  color: var(--color-text);
+}
+.achat-avatar-me {
+  background: rgba(255, 92, 53, 0.18);
+  color: var(--color-brand);
+}
+.achat-avatar-other-admin {
+  background: rgba(100, 150, 255, 0.15);
+  color: #6496ff;
+}
+
+/* Content column */
+.achat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 68%;
+}
+
+/* Name + role badge row */
+.achat-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.achat-header.outgoing {
+  flex-direction: row-reverse;
+}
+.achat-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.achat-role {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  line-height: 1.6;
+}
+.achat-role-user {
+  background: rgba(157, 160, 179, 0.14);
+  color: var(--color-muted);
+}
+.achat-role-me {
+  background: rgba(255, 92, 53, 0.12);
+  color: var(--color-brand);
+}
+.achat-role-other-admin {
+  background: rgba(100, 150, 255, 0.12);
+  color: #6496ff;
+}
+
+/* Message bubble */
+.achat-bubble {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  word-wrap: break-word;
+}
+.achat-bubble p {
+  margin: 0;
+}
+.achat-bubble-user {
+  background: var(--color-card);
+  color: var(--color-text);
+  border-bottom-left-radius: 4px;
+}
+.achat-bubble-me {
+  background: var(--color-brand);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.achat-bubble-other-admin {
+  background: rgba(100, 150, 255, 0.1);
+  border: 1px solid rgba(100, 150, 255, 0.2);
+  color: var(--color-text);
+  border-bottom-left-radius: 4px;
+}
+.achat-bubble-me .chat-msg-file {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Timestamp row */
+.achat-footer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.67rem;
+  color: var(--color-muted);
+}
+.achat-footer.outgoing {
+  flex-direction: row-reverse;
+}
+.achat-read-icon {
+  display: flex;
+  align-items: center;
+  color: var(--color-success);
+}
+
+/* Profile link icon */
+.achat-profile-link:hover {
+  color: var(--color-brand) !important;
+}
+
+/* Online dot in header */
+.achat-online-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-success);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .chat-widget {

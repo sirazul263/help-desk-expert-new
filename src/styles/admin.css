@@ -378,6 +378,25 @@
 .filter-select:focus {
   border-color: rgba(255, 92, 53, 0.5);
 }
+.filter-clear-btn {
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-muted, #9da0b3);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.filter-clear-btn:hover {
+  background: rgba(255, 92, 53, 0.1);
+  border-color: rgba(255, 92, 53, 0.5);
+  color: var(--color-text);
+}
 
 /* ── Table ── */
 .tbl {
@@ -1126,6 +1145,11 @@
 .adm-tab.active {
   color: var(--color-brand, #ff5c35);
   border-bottom-color: var(--color-brand, #ff5c35);
+}
+
+/* ── Back link ── */
+.adm-back-link:hover {
+  color: var(--color-text) !important;
 }
 
 /* ── Ghost button ── */

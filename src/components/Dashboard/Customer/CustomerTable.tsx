@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ReactPaginate from "react-paginate";
+import Link from "next/link";
+import { Eye } from "lucide-react";
 import { getCustomers } from "@/actions/invoice";
 import {
   fmtDate,
@@ -50,6 +52,17 @@ export default function CustomerTable() {
               setPage(0);
             }}
           />
+          {search && (
+            <button
+              className="filter-clear-btn"
+              onClick={() => {
+                setSearch("");
+                setPage(0);
+              }}
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
 
@@ -62,16 +75,17 @@ export default function CustomerTable() {
             <th>Invoices</th>
             <th>Joined</th>
             <th>Status</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {isLoading ? (
             <tr className="empty-row">
-              <td colSpan={6}>Loading…</td>
+              <td colSpan={7}>Loading…</td>
             </tr>
           ) : filtered.length === 0 ? (
             <tr className="empty-row">
-              <td colSpan={6}>No customers found.</td>
+              <td colSpan={7}>No customers found.</td>
             </tr>
           ) : (
             paginated.map((c, idx) => {
@@ -80,19 +94,10 @@ export default function CustomerTable() {
               return (
                 <tr key={c.id}>
                   <td>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: ".5rem",
-                      }}
-                    >
+                    <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
                       <span
                         className="cl-avatar"
-                        style={{
-                          background: avatarColors[ci],
-                          color: avatarTextColors[ci],
-                        }}
+                        style={{ background: avatarColors[ci], color: avatarTextColors[ci] }}
                       >
                         {initials(name)}
                       </span>
@@ -102,21 +107,20 @@ export default function CustomerTable() {
                   <td style={{ fontSize: ".8rem" }}>{c.email}</td>
                   <td style={{ fontSize: ".82rem" }}>{c.company || "—"}</td>
                   <td>
-                    <span
-                      className="inv-badge b-paid"
-                      style={{ fontSize: ".7rem" }}
-                    >
-                      {c._count.invoices} invoice
-                      {c._count.invoices !== 1 ? "s" : ""}
+                    <span className="inv-badge b-paid" style={{ fontSize: ".7rem" }}>
+                      {c._count.invoices} invoice{c._count.invoices !== 1 ? "s" : ""}
                     </span>
                   </td>
                   <td style={{ fontSize: ".8rem" }}>{fmtDate(c.createdAt)}</td>
                   <td>
-                    <span
-                      className={`inv-badge ${c.isActive ? "b-paid" : "b-overdue"}`}
-                    >
+                    <span className={`inv-badge ${c.isActive ? "b-paid" : "b-overdue"}`}>
                       {c.isActive ? "Active" : "Inactive"}
                     </span>
+                  </td>
+                  <td>
+                    <Link href={`/admin/users/${c.id}`} className="btn-icon" title="View details">
+                      <Eye size={14} />
+                    </Link>
                   </td>
                 </tr>
               );

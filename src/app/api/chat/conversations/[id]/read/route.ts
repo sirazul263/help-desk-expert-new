@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { pusher } from "@/lib/pusher";
 
 // Mark messages as read
 export async function POST(
@@ -20,6 +21,8 @@ export async function POST(
     },
     data: { isRead: true },
   });
+
+  await pusher.trigger(`chat-${id}`, "messages-seen", { reader: sender });
 
   return NextResponse.json({ ok: true });
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { MessageSquare, X, Send, Paperclip } from "lucide-react";
-import { useSocket } from "@/lib/socket";
+import { getPusher, usePusherConnection } from "@/lib/pusher-client";
 
 interface Message {
   id: string;
@@ -31,10 +31,11 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { socket, isConnected } = useSocket();
+  const isConnected = usePusherConnection();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -44,25 +45,24 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
     scrollToBottom();
   }, [messages]);
 
-  // Socket.IO event listeners
+  // Pusher channel subscriptions
   useEffect(() => {
-    if (!socket || !conversationId) return;
+    if (!conversationId) return;
 
-    socket.emit("join-conversation", conversationId);
+    const pusher = getPusher();
+    const channel = pusher.subscribe(`chat-${conversationId}`);
 
     const handleNewMessage = (message: Message) => {
       setMessages((prev) => {
         if (prev.some((m) => m.id === message.id)) return prev;
         return [...prev, message];
       });
-      // Auto mark as read if chat is open
       if (isOpen) {
         fetch(`/api/chat/conversations/${conversationId}/read`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ sender: "user" }),
         });
-        socket.emit("messages-read", { conversationId, reader: "user" });
       }
     };
 
@@ -82,43 +82,36 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
       }
     };
 
-    socket.on("new-message", handleNewMessage);
-    socket.on("user-typing", handleTyping);
-    socket.on("user-stop-typing", handleStopTyping);
-    socket.on("messages-seen", handleMessagesSeen);
+    channel.bind("new-message", handleNewMessage);
+    channel.bind("user-typing", handleTyping);
+    channel.bind("user-stop-typing", handleStopTyping);
+    channel.bind("messages-seen", handleMessagesSeen);
 
     return () => {
-      socket.emit("leave-conversation", conversationId);
-      socket.off("new-message", handleNewMessage);
-      socket.off("user-typing", handleTyping);
-      socket.off("user-stop-typing", handleStopTyping);
-      socket.off("messages-seen", handleMessagesSeen);
+      channel.unbind_all();
+      pusher.unsubscribe(`chat-${conversationId}`);
     };
-  }, [socket, conversationId, isOpen]);
+  }, [conversationId, isOpen]);
 
   // Start or resume conversation
   const startConversation = useCallback(async () => {
-    const res = await fetch("/api/chat/conversations", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, name }),
-    });
-    if (res.ok) {
-      const convo = await res.json();
-      setConversationId(convo.id);
-      setMessages(convo.messages || []);
-      setHasStarted(true);
-
-      // Notify admins about new conversation
-      if (socket && convo.messages?.length === 0) {
-        socket.emit("new-conversation", {
-          conversationId: convo.id,
-          email,
-          name,
-        });
+    setLoading(true);
+    try {
+      const res = await fetch("/api/chat/conversations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name }),
+      });
+      if (res.ok) {
+        const convo = await res.json();
+        setConversationId(convo.id);
+        setMessages(convo.messages || []);
+        setHasStarted(true);
       }
+    } finally {
+      setLoading(false);
     }
-  }, [email, name, socket]);
+  }, [email, name]);
 
   // Auto-start for logged-in users
   useEffect(() => {
@@ -127,14 +120,22 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
     }
   }, [userEmail, isOpen, conversationId, startConversation]);
 
-  // Send typing indicator via socket
+  // Send typing indicator via API (Pusher triggers on the server)
   const sendTypingIndicator = () => {
-    if (!conversationId || !socket) return;
-    socket.emit("typing", { conversationId, sender: "user" });
+    if (!conversationId) return;
+    fetch(`/api/chat/conversations/${conversationId}/typing`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sender: "user", action: "typing" }),
+    });
 
     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     typingTimeoutRef.current = setTimeout(() => {
-      socket.emit("stop-typing", { conversationId, sender: "user" });
+      fetch(`/api/chat/conversations/${conversationId}/typing`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender: "user", action: "stop" }),
+      });
     }, 2000);
   };
 
@@ -146,10 +147,11 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
     const body = input.trim();
     setInput("");
 
-    // Stop typing
-    if (socket) {
-      socket.emit("stop-typing", { conversationId, sender: "user" });
-    }
+    fetch(`/api/chat/conversations/${conversationId}/typing`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sender: "user", action: "stop" }),
+    });
 
     const res = await fetch(
       `/api/chat/conversations/${conversationId}/messages`,
@@ -162,11 +164,10 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
 
     if (res.ok) {
       const msg = await res.json();
-      setMessages((prev) => [...prev, msg]);
-      // Emit via socket for real-time delivery
-      if (socket) {
-        socket.emit("send-message", { conversationId, message: msg });
-      }
+      setMessages((prev) => {
+        if (prev.some((m) => m.id === msg.id)) return prev;
+        return [...prev, msg];
+      });
     }
   };
 
@@ -204,10 +205,10 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
 
       if (res.ok) {
         const msg = await res.json();
-        setMessages((prev) => [...prev, msg]);
-        if (socket) {
-          socket.emit("send-message", { conversationId, message: msg });
-        }
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
       }
     }
     setUploading(false);
@@ -252,11 +253,13 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
               <div>
                 <h4>HelpDesk Support</h4>
                 <span className="chat-widget-status">
-                  {isTyping
-                    ? "Typing..."
-                    : isConnected
-                      ? "Online"
-                      : "Connecting..."}
+                  {loading
+                    ? "Loading..."
+                    : isTyping
+                      ? "Typing..."
+                      : isConnected
+                        ? "Online"
+                        : "Connecting..."}
                 </span>
               </div>
             </div>
@@ -296,45 +299,65 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
           ) : (
             <>
               <div className="chat-widget-messages">
-                {messages.length === 0 && (
-                  <div className="chat-widget-empty">
-                    <p>👋 Hi! How can we help you today?</p>
-                  </div>
-                )}
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`chat-msg ${msg.sender === "user" ? "chat-msg-user" : "chat-msg-admin"}`}
-                  >
-                    {msg.fileUrl && isImage(msg.fileType) && (
-                      <img
-                        src={msg.fileUrl}
-                        alt={msg.fileName || "image"}
-                        className="chat-msg-image"
-                      />
-                    )}
-                    {msg.fileUrl && !isImage(msg.fileType) && (
-                      <a
-                        href={msg.fileUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="chat-msg-file"
-                      >
-                        <Paperclip size={14} />
-                        {msg.fileName || "File"}
-                      </a>
-                    )}
-                    {msg.body && <p>{msg.body}</p>}
-                    <div className="chat-msg-meta">
-                      <span>{formatTime(msg.createdAt)}</span>
-                      {msg.sender === "user" && (
-                        <span className="chat-msg-status">
-                          {msg.isRead ? "✓✓" : "✓"}
-                        </span>
-                      )}
+                {loading ? (
+                  <div className="chat-widget-loading">Loading messages…</div>
+                ) : (
+                  messages.length === 0 && (
+                    <div className="chat-widget-empty">
+                      <p>👋 Hi! How can we help you today?</p>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
+                {messages.map((msg, idx) => {
+                  const prev = messages[idx - 1];
+                  const showSender =
+                    msg.sender === "user" &&
+                    (idx === 0 || prev?.sender !== msg.sender);
+
+                  return (
+                    <div
+                      key={`${msg.id}-${idx}`}
+                      className={`chat-msg ${msg.sender === "user" ? "chat-msg-user" : "chat-msg-admin"}`}
+                    >
+                      {showSender && (
+                        <div className="chat-msg-sender">
+                          {name || userName || "You"}
+                        </div>
+                      )}
+
+                      {msg.fileUrl && isImage(msg.fileType) && (
+                        <img
+                          src={msg.fileUrl}
+                          alt={msg.fileName || "image"}
+                          className="chat-msg-image"
+                        />
+                      )}
+
+                      {msg.fileUrl && !isImage(msg.fileType) && (
+                        <a
+                          href={msg.fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="chat-msg-file"
+                        >
+                          <Paperclip size={14} />
+                          {msg.fileName || "File"}
+                        </a>
+                      )}
+
+                      {msg.body && <p>{msg.body}</p>}
+
+                      <div className="chat-msg-meta">
+                        <span>{formatTime(msg.createdAt)}</span>
+                        {msg.sender === "user" && (
+                          <span className="chat-msg-status">
+                            {msg.isRead ? "✓✓" : "✓"}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
                 {isTyping && (
                   <div className="chat-msg chat-msg-admin">
                     <div className="chat-typing-indicator">
@@ -354,12 +377,13 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
                   onChange={handleFileUpload}
                   className="chat-file-input"
                   accept="image/*,.pdf,.doc,.docx,.txt"
+                  disabled={uploading || loading}
                 />
                 <button
                   type="button"
                   className="chat-attach-btn"
                   onClick={() => fileInputRef.current?.click()}
-                  disabled={uploading}
+                  disabled={uploading || loading}
                   title="Attach file"
                 >
                   <Paperclip size={18} />
@@ -372,12 +396,12 @@ export default function ChatWidget({ userEmail, userName }: ChatWidgetProps) {
                     setInput(e.target.value);
                     sendTypingIndicator();
                   }}
-                  disabled={uploading}
+                  disabled={uploading || loading}
                   className="chat-text-input"
                 />
                 <button
                   type="submit"
-                  disabled={!input.trim() || uploading}
+                  disabled={!input.trim() || uploading || loading}
                   className="chat-send-btn"
                 >
                   <Send size={18} />

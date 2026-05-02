@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { pusher } from "@/lib/pusher";
 
 // Create or retrieve an existing open conversation
 export async function POST(req: NextRequest) {
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
     include: { messages: { orderBy: { createdAt: "asc" } } },
   });
 
+  let isNew = false;
   if (!conversation) {
     conversation = await prisma.chatConversation.create({
       data: {
@@ -26,6 +28,15 @@ export async function POST(req: NextRequest) {
         userId: session?.user?.id ?? null,
       },
       include: { messages: { orderBy: { createdAt: "asc" } } },
+    });
+    isNew = true;
+  }
+
+  if (isNew) {
+    await pusher.trigger("admin", "new-conversation", {
+      conversationId: conversation.id,
+      email: userEmail,
+      name: name || "",
     });
   }
 
