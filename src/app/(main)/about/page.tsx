@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -115,7 +115,7 @@ export default function AboutPage() {
         label="About Us"
         title="We exist to make"
         titleHighlight="great support accessible"
-        description="HelpDesk Expert was built by former SaaS founders who experienced firsthand how hard it is to scale customer support without sacrificing quality."
+        description="HelpDeskXpert was built by former SaaS founders who experienced firsthand how hard it is to scale customer support without sacrificing quality."
       />
 
       <section className="section">
@@ -131,7 +131,7 @@ export default function AboutPage() {
               support experiences.
             </p>
             <p>
-              We started HelpDesk Expert to fix that. By placing rigorously
+              We started HelpDeskXpert to fix that. By placing rigorously
               trained, SaaS-savvy agents directly into your team, we remove the
               bottleneck and give your users the experience they deserve.
             </p>
@@ -168,7 +168,7 @@ export default function AboutPage() {
         <SectionHeader
           label="Our Story"
           title="How we got here"
-          subtitle="HelpDesk Expert was born from frustration — and a belief that there was a better way."
+          subtitle="HelpDeskXpert was born from frustration — and a belief that there was a better way."
         />
         <div className="story-timeline">
           {timeline.map((item, i) => (
@@ -243,7 +243,7 @@ export default function AboutPage() {
 
       <CtaBand
         title="Want to join our mission?"
-        description="We're always looking for talented support professionals and SaaS-savvy team members to join HelpDesk Expert."
+        description="We're always looking for talented support professionals and SaaS-savvy team members to join HelpDeskXpert."
         primaryLabel="Get In Touch →"
         primaryHref="/contact"
         secondaryLabel="Explore Services"

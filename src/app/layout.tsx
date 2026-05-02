@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Syne, DM_Sans } from "next/font/google";
 import "../styles/globals.css";
 import "../styles/auth.css";
@@ -30,7 +30,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "HelpDesk Expert — Outsourced Support Agents for SaaS",
+  title: "HelpDeskXpert — Outsourced Support Agents for SaaS",
   description:
     "World-class outsourced customer support agents for SaaS companies. Fast onboarding, 24/7 coverage, and a CSAT guarantee.",
   icons: {

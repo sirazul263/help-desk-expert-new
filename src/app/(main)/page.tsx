@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -73,7 +73,7 @@ const steps = [
 const testimonials = [
   {
     quote:
-      "HelpDesk Expert transformed our support. Response time dropped from 12 hours to under 2 — and our CSAT jumped from 72% to 96% in three months.",
+      "HelpDeskXpert transformed our support. Response time dropped from 12 hours to under 2 — and our CSAT jumped from 72% to 96% in three months.",
     name: "James Keller",
     role: "Head of CX, Streamly",
     initials: "JK",
@@ -271,10 +271,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Why HelpDesk Expert */}
+      {/* Why HelpDeskXpert */}
       <section className="section">
         <SectionHeader
-          label="Why HelpDesk Expert"
+          label="Why HelpDeskXpert"
           title="Built specifically for SaaS teams"
           subtitle="We understand the unique demands of tech companies — from API support to churn prevention."
         />
@@ -342,7 +342,7 @@ export default function HomePage() {
       {/* CTA */}
       <CtaBand
         title="Ready to level up your support?"
-        description="Join 200+ SaaS companies that trust HelpDesk Expert to keep their customers happy."
+        description="Join 200+ SaaS companies that trust HelpDeskXpert to keep their customers happy."
         primaryLabel="Book a Free Consultation →"
         primaryHref="/contact"
         secondaryLabel={"See Pricing"}

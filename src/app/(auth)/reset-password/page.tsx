@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useActionState, useState } from "react";
 import { forgotPassword, verifyOTP, resetPassword } from "@/actions/auth";
@@ -48,7 +48,7 @@ export default function ResetPasswordPage() {
       <div className="auth-card">
         <div className="auth-header">
           <Link href="/" className="auth-logo">
-            HelpDesk<span>Expert</span>
+            HelpDesk<span>Xpert</span>
           </Link>
           <h1>Reset password</h1>
           <p>

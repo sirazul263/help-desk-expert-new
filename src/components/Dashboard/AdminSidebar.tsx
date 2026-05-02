@@ -12,7 +12,7 @@ export default async function AdminSidebar() {
         <Link href="/">
           <div className="adm-brand">
             <span className="adm-brand-main">HelpDesk</span>
-            <span className="adm-brand-accent">Expert</span>
+            <span className="adm-brand-accent">Xpert</span>
           </div>
         </Link>
         <small>Admin Panel</small>

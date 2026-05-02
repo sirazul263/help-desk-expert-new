@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { prisma } from "@/lib/prisma";
 import { signIn, signOut, auth, hashPassword, verifyPassword, generateOTP } from "@/lib/auth";
@@ -146,7 +146,7 @@ export async function forgotPassword(_prev: unknown, formData: FormData) {
   try {
     await sendMail({
       to: user.email,
-      subject: "Your Password Reset Code — HelpDesk Expert",
+      subject: "Your Password Reset Code — HelpDeskXpert",
       html: buildOTPEmail(user.firstName, otp),
     });
   } catch (e) {

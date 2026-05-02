@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -232,7 +232,7 @@ export default function PricingPage() {
         {/* Guarantee */}
         <div className="guarantee-card">
           <h3 className="text-[1.4rem] font-extrabold mb-[0.6rem] text-success">
-            The HelpDesk Expert Guarantee
+            The HelpDeskXpert Guarantee
           </h3>
           <p>
             If your CSAT score drops below 90% in any given month, we&apos;ll

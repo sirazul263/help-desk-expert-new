@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
@@ -190,7 +190,7 @@ export default function CookiePolicyPage() {
                 a set period or until you delete them
               </li>
               <li>
-                <strong>First-party cookies</strong> — set by HelpDesk Expert
+                <strong>First-party cookies</strong> — set by HelpDeskXpert
                 directly
               </li>
               <li>
@@ -363,7 +363,7 @@ export default function CookiePolicyPage() {
                   <td>
                     <code>hde_analytics</code>
                   </td>
-                  <td>HelpDesk Expert</td>
+                  <td>HelpDeskXpert</td>
                   <td>26 months</td>
                   <td>
                     Our internal page view and session analytics (anonymised).
@@ -488,7 +488,7 @@ export default function CookiePolicyPage() {
               <div className="cm-header">
                 <div>
                   <h4>Cookie Preferences</h4>
-                  <p>Manage which cookies you allow HelpDesk Expert to use.</p>
+                  <p>Manage which cookies you allow HelpDeskXpert to use.</p>
                 </div>
                 <div className="cm-actions">
                   <button className="cm-btn cm-btn-reject" onClick={rejectAll}>
@@ -639,7 +639,7 @@ export default function CookiePolicyPage() {
               please contact us:
             </p>
             <div className="legal-contact-card">
-              <h4>HelpDesk Expert — Privacy Team</h4>
+              <h4>HelpDeskXpert — Privacy Team</h4>
               <div className="contact-row">
                 <svg viewBox="0 0 24 24">
                   <rect x="2" y="4" width="20" height="16" rx="2" />

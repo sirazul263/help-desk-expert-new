@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,7 +13,7 @@ const faqSections = [
     title: "Getting Started",
     items: [
       {
-        q: "How do I get started with HelpDesk Expert?",
+        q: "How do I get started with HelpDeskXpert?",
         a: "Simply book a free 30-minute discovery call through our Contact page. We'll learn about your product, your support needs, and your current setup — then recommend the right plan and match you with a suitable agent profile within 24 hours.",
       },
       {
@@ -179,7 +179,7 @@ export default function FaqPage() {
         label="FAQ"
         title="Got questions?"
         titleHighlight="We've got answers."
-        description="Everything you need to know about working with HelpDesk Expert — from onboarding to billing to agent quality."
+        description="Everything you need to know about working with HelpDeskXpert — from onboarding to billing to agent quality."
       >
         <div className="search-wrap">
           <Search />
