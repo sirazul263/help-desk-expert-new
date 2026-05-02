@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(Get-ChildItem -Path \"d:\\\\2026\\\\helpdeskexpert-next\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(npx prisma *)"
     ]
   }
 }

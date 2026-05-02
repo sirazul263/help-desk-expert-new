@@ -66,6 +66,14 @@ export default async function AdminSidebar() {
           </svg>
           <span>Chat</span>
         </Link>
+        <Link href="/admin/screen-share" className="adm-nav-item">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+            <path d="M10 10l5-3-5-3v6z" />
+          </svg>
+          <span>Screen Share</span>
+        </Link>
       </div>
 
       <div className="adm-sidebar-footer">

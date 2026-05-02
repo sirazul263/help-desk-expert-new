@@ -28,6 +28,9 @@ export default async function DashboardLayout({
           <Link href="/dashboard/change-password" className="dash-nav-link">
             Change Password
           </Link>
+          <Link href="/dashboard/screen-share" className="dash-nav-link">
+            Screen Share
+          </Link>
         </nav>
 
         <div className="dash-sidebar-footer">

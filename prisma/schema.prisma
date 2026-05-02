@@ -133,6 +133,51 @@ model InvoiceItem {
     @@map("invoice_items")
 }
 
+// ── Screen Share ─────────────────────────────────────
+model ScreenSession {
+    id        String   @id @default(cuid())
+    agentId   String   @map("agent_id")
+    agentName String   @map("agent_name")
+    status    String   @default("waiting") // waiting | live | ended
+    offer     String?  @db.Text
+    answer    String?  @db.Text
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    iceCandidates ScreenIceCandidate[]
+    chatMessages  ScreenChatMsg[]
+
+    @@index([agentId])
+    @@map("screen_sessions")
+}
+
+model ScreenIceCandidate {
+    id        String   @id @default(cuid())
+    sessionId String   @map("session_id")
+    role      String // agent | client
+    candidate String   @db.Text
+    createdAt DateTime @default(now()) @map("created_at")
+
+    session ScreenSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+    @@index([sessionId, role])
+    @@map("screen_ice_candidates")
+}
+
+model ScreenChatMsg {
+    id        String   @id @default(cuid())
+    sessionId String   @map("session_id")
+    role      String // agent | client
+    name      String
+    text      String   @db.Text
+    createdAt DateTime @default(now()) @map("created_at")
+
+    session ScreenSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+    @@index([sessionId, createdAt])
+    @@map("screen_chat_msgs")
+}
+
 // ── Chat ──────────────────────────────────────────────
 model ChatConversation {
     id        String   @id @default(cuid())
