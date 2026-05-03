@@ -83,14 +83,15 @@ export default function Navbar({ user }: { user?: NavUser | null }) {
             </span>
           </Link>
         ) : (
-          <>
-            <Link href="/login" className="btn-ghost">
+          <div className="flex items-center gap-4">
+            <Link href="/login" className="btn-ghost py-3">
               Log In
             </Link>
+
             <Link href="/contact" className="btn-primary">
               Get Started
             </Link>
-          </>
+          </div>
         )}
         <button
           className="md:hidden nav-toggle"

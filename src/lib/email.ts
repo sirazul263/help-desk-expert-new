@@ -1,14 +1,6 @@
-﻿import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_KEY);
 
 interface SendMailOptions {
   to: string;
@@ -17,9 +9,8 @@ interface SendMailOptions {
 }
 
 export async function sendMail({ to, subject, html }: SendMailOptions) {
-  return transporter.sendMail({
-    from:
-      process.env.SMTP_FROM || "HelpDeskXpert <noreply@helpdeskexpert.com>",
+  return resend.emails.send({
+    from: process.env.EMAIL_FROM || "HelpDeskXpert <noreply@helpdeskexpert.com>",
     to,
     subject,
     html,

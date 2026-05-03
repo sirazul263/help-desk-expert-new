@@ -17,8 +17,8 @@ export default function ScrollToTop() {
       aria-label="Scroll to top"
       style={{
         position: "fixed",
-        bottom: "2rem",
-        right: "2rem",
+        bottom: "96px",
+        right: "24px",
         zIndex: 9999,
         width: "48px",
         height: "48px",
