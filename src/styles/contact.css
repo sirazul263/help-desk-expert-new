@@ -306,3 +306,262 @@
   font-family: "DM Sans", sans-serif;
   cursor: pointer;
 }
+
+/* ── Premium Calendar ──────────────────────────────── */
+.cal-wrap {
+  background: var(--color-mid);
+  border: 1px solid var(--color-input-border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem 1.1rem;
+  user-select: none;
+}
+.cal-wrap.error {
+  border-color: var(--color-error);
+}
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+.cal-title {
+  font-family: var(--font-syne);
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  letter-spacing: 0.01em;
+}
+.cal-nav {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.cal-nav:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.cal-dow {
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  padding: 0.35rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-family: var(--font-dm);
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
+}
+.cal-day:hover:not(:disabled):not(.cal-selected) {
+  background: rgba(255, 255, 255, 0.07);
+}
+.cal-other {
+  color: rgba(157, 160, 179, 0.25) !important;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+.cal-disabled {
+  color: rgba(157, 160, 179, 0.28) !important;
+  cursor: not-allowed !important;
+}
+.cal-today {
+  border-color: rgba(255, 92, 53, 0.45) !important;
+  color: var(--color-brand) !important;
+}
+.cal-selected {
+  background: var(--color-brand) !important;
+  color: #fff !important;
+  font-weight: 600;
+  border-color: transparent !important;
+}
+.cal-selected:hover {
+  background: #e54d28 !important;
+}
+
+/* ── react-day-picker dark theme overrides ─────────── */
+.rdp-wrap {
+  border: 1px solid var(--color-input-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-mid);
+}
+.rdp-wrap--error {
+  border-color: var(--color-error);
+}
+
+/* Root container */
+.rdp-root {
+  --rdp-accent-color: #ff5c35;
+  --rdp-accent-background-color: rgba(255, 92, 53, 0.15);
+  --rdp-day-height: 2.3rem;
+  --rdp-day-width: 2.3rem;
+  --rdp-day_button-height: 2.1rem;
+  --rdp-day_button-width: 2.1rem;
+  --rdp-day_button-border-radius: 8px;
+  --rdp-selected-border: none;
+  --rdp-disabled-opacity: 0.28;
+  --rdp-outside-opacity: 0.25;
+  --rdp-today-color: #ff5c35;
+  color: var(--color-text);
+  font-family: var(--font-dm);
+  padding: 1rem 1.1rem 1.1rem;
+  margin: 0;
+  width: 100%;
+}
+
+/* Month caption */
+.rdp-month_caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.75rem;
+}
+.rdp-caption_label {
+  font-family: var(--font-syne);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  flex: 1;
+  text-align: center;
+}
+
+/* Nav buttons */
+.rdp-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  position: absolute;
+  right: 1.1rem;
+}
+.rdp-month_caption {
+  position: relative;
+}
+.rdp-button_previous,
+.rdp-button_next {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.rdp-button_previous:hover,
+.rdp-button_next:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Weekday headers */
+.rdp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0.25rem;
+}
+.rdp-weekday {
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0;
+}
+
+/* Day grid */
+.rdp-weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.rdp-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.rdp-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rdp-day_button {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.rdp-day_button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Today */
+.rdp-today .rdp-day_button {
+  border-color: rgba(255, 92, 53, 0.5);
+  color: #ff5c35;
+  font-weight: 600;
+}
+
+/* Selected */
+.rdp-selected .rdp-day_button {
+  background: #ff5c35 !important;
+  color: #fff !important;
+  font-weight: 700;
+  border-color: transparent !important;
+}
+.rdp-selected .rdp-day_button:hover {
+  background: #e54d28 !important;
+}
+
+/* Disabled */
+.rdp-disabled .rdp-day_button {
+  color: rgba(157, 160, 179, 0.28);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Outside days */
+.rdp-outside .rdp-day_button {
+  color: rgba(157, 160, 179, 0.22);
+}

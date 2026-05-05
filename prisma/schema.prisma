@@ -70,6 +70,7 @@ model User {
     invoices          Invoice[]
     chatConversations ChatConversation[]
     adminMessages     ChatMessage[]
+    reviews           Review[]
 
     @@map("users")
 }
@@ -176,6 +177,51 @@ model ScreenChatMsg {
 
     @@index([sessionId, createdAt])
     @@map("screen_chat_msgs")
+}
+
+// ── Consultations ─────────────────────────────────────
+model Consultation {
+    id        String   @id @default(cuid())
+    firstName String   @map("first_name")
+    lastName  String   @map("last_name")
+    email     String
+    company   String
+    role      String
+    website   String   @default("")
+    agents    String
+    channels  String   @default("")
+    volume    String
+    tool      String   @default("")
+    notes     String   @default("") @db.Text
+    date      String
+    time      String
+    timezone  String
+    source    String   @default("")
+    status    String   @default("pending") // pending | in_progress | completed
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([status])
+    @@index([createdAt])
+    @@map("consultations")
+}
+
+// ── Reviews ───────────────────────────────────────────
+model Review {
+    id          String   @id @default(cuid())
+    userId      String   @map("user_id")
+    rating      Int      @default(5)
+    quote       String   @db.Text
+    role        String   @default("")
+    isPublished Boolean  @default(true) @map("is_published")
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @updatedAt @map("updated_at")
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([isPublished])
+    @@map("reviews")
 }
 
 // ── Chat ──────────────────────────────────────────────
