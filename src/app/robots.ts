@@ -6,14 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/api/",
-          "/dashboard/",
-          "/admin/",
-          "/(auth)/",
-          "/login",
-          "/reset-password",
-        ],
+        disallow: ["/api/", "/dashboard/", "/admin/", "/(auth)/", "/login"],
       },
     ],
     sitemap: "https://helpdeskxpert.com/sitemap.xml",

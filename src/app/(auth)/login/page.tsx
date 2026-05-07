@@ -4,9 +4,19 @@ import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login, register } from "@/actions/auth";
+import {
+  login,
+  register,
+  forgotPassword,
+  verifyOTP,
+  resetPassword,
+} from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import LoginForm from "@/components/Login/LoginForm";
+import RegisterForm from "@/components/Login/RegisterForm";
+import ForgotPassword from "@/components/Login/ForgotPassword";
 
 /* ── Schemas ─────────────────────────────────────────── */
 const loginSchema = z.object({
@@ -61,12 +71,77 @@ const EyeClosed = () => (
   </svg>
 );
 
+type ForgotStep = "email" | "otp" | "reset";
+
 export default function LoginPage() {
   const router = useRouter();
-  const [tab, setTab] = useState<"login" | "signup">("login");
+  const [tab, setTab] = useState<"login" | "signup" | "forgot">("login");
   const [serverError, setServerError] = useState("");
   const [serverSuccess, setServerSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
+  /* ── Forgot password state ── */
+  const [forgotStep, setForgotStep] = useState<ForgotStep>("email");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotOtp, setForgotOtp] = useState("");
+  const [forgotError, setForgotError] = useState("");
+  const [forgotSuccess, setForgotSuccess] = useState("");
+  const [forgotLoading, setForgotLoading] = useState(false);
+
+  const onForgotEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setForgotError("");
+    setForgotLoading(true);
+    const fd = new FormData(e.currentTarget);
+    const result = await forgotPassword(null, fd);
+    setForgotLoading(false);
+    if (result?.success && result?.email) {
+      setForgotEmail(result.email);
+      setForgotStep("otp");
+    } else if (result?.error) {
+      setForgotError(result.error);
+    } else if (result?.success) {
+      setForgotError(result.success);
+    }
+  };
+
+  const onForgotOtp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setForgotError("");
+    setForgotLoading(true);
+    const fd = new FormData(e.currentTarget);
+    const result = await verifyOTP(null, fd);
+    setForgotLoading(false);
+    if (result?.verified) {
+      setForgotOtp(fd.get("otp") as string);
+      setForgotStep("reset");
+    } else if (result?.error) {
+      setForgotError(result.error);
+    }
+  };
+
+  const onResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setForgotError("");
+    setForgotSuccess("");
+    setForgotLoading(true);
+    const fd = new FormData(e.currentTarget);
+    const result = await resetPassword(null, fd);
+    setForgotLoading(false);
+    if (result?.success) {
+      setForgotSuccess(result.success);
+    } else if (result?.error) {
+      setForgotError(result.error);
+    }
+  };
+
+  const resetForgotState = () => {
+    setForgotStep("email");
+    setForgotEmail("");
+    setForgotOtp("");
+    setForgotError("");
+    setForgotSuccess("");
+  };
 
   /* ── Login form ── */
   const [showLoginPw, setShowLoginPw] = useState(false);
@@ -128,10 +203,11 @@ export default function LoginPage() {
     }
   };
 
-  const switchTab = (t: "login" | "signup") => {
+  const switchTab = (t: "login" | "signup" | "forgot") => {
     setTab(t);
     setServerError("");
     setServerSuccess("");
+    if (t !== "forgot") resetForgotState();
   };
 
   return (
@@ -218,455 +294,73 @@ export default function LoginPage() {
           </div>
 
           {/* TABS */}
-          <div className="auth-tabs">
-            <button
-              className={`auth-tab${tab === "login" ? " active" : ""}`}
-              onClick={() => switchTab("login")}
-              type="button"
-            >
-              Sign In
-            </button>
-            <button
-              className={`auth-tab${tab === "signup" ? " active" : ""}`}
-              onClick={() => switchTab("signup")}
-              type="button"
-            >
-              Create Account
-            </button>
-          </div>
+          {tab !== "forgot" && (
+            <div className="auth-tabs">
+              <button
+                className={`auth-tab${tab === "login" ? " active" : ""}`}
+                onClick={() => switchTab("login")}
+                type="button"
+              >
+                Sign In
+              </button>
+              <button
+                className={`auth-tab${tab === "signup" ? " active" : ""}`}
+                onClick={() => switchTab("signup")}
+                type="button"
+              >
+                Create Account
+              </button>
+            </div>
+          )}
 
           {/* ═══ LOGIN VIEW ═══ */}
           {tab === "login" && (
-            <div>
-              <h2 className="auth-title">Welcome back</h2>
-              <p className="auth-sub">
-                Sign in to your HelpDeskXpert account.
-              </p>
-
-              {serverError && (
-                <div className="alert alert-error">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  <span>{serverError}</span>
-                </div>
-              )}
-
-              <form onSubmit={loginForm.handleSubmit(onLogin)}>
-                {/* Email */}
-                <div
-                  className={`field${loginForm.formState.errors.email ? " invalid" : ""}`}
-                >
-                  <label>
-                    Email address <span className="req">*</span>
-                  </label>
-                  <div className="input-wrap">
-                    <input
-                      type="email"
-                      placeholder="you@company.com"
-                      autoComplete="email"
-                      {...loginForm.register("email")}
-                    />
-                    <span className="input-icon">
-                      <svg viewBox="0 0 24 24">
-                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                      </svg>
-                    </span>
-                  </div>
-                  {loginForm.formState.errors.email && (
-                    <div className="err-text">
-                      {loginForm.formState.errors.email.message}
-                    </div>
-                  )}
-                </div>
-
-                {/* Password */}
-                <div
-                  className={`field${loginForm.formState.errors.password ? " invalid" : ""}`}
-                >
-                  <label>
-                    Password <span className="req">*</span>
-                  </label>
-                  <div className="input-wrap">
-                    <input
-                      type={showLoginPw ? "text" : "password"}
-                      placeholder="••••••••"
-                      autoComplete="current-password"
-                      {...loginForm.register("password")}
-                    />
-                    <button
-                      className="toggle-pw"
-                      type="button"
-                      tabIndex={-1}
-                      onClick={() => setShowLoginPw(!showLoginPw)}
-                    >
-                      {showLoginPw ? <EyeClosed /> : <EyeOpen />}
-                    </button>
-                  </div>
-                  {loginForm.formState.errors.password && (
-                    <div className="err-text">
-                      {loginForm.formState.errors.password.message}
-                    </div>
-                  )}
-                </div>
-
-                <div className="remember-row">
-                  <div className="check-row">
-                    <input type="checkbox" id="remember" />
-                    <label htmlFor="remember">Keep me signed in</label>
-                  </div>
-                  <Link href="/reset-password" className="forgot-link-inline">
-                    Forgot password?
-                  </Link>
-                </div>
-
-                <button
-                  className="btn-primary w-full"
-                  type="submit"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span className="spinner" /> Please wait…
-                    </>
-                  ) : (
-                    "Sign In"
-                  )}
-                </button>
-              </form>
-
-              <div className="divider">or continue with</div>
-
-              <div className="social-buttons">
-                <button type="button" className="btn-social">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-                      fill="#4285F4"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                      fill="#34A853"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                      fill="#FBBC05"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                      fill="#EA4335"
-                    />
-                  </svg>
-                  Google
-                </button>
-                <button type="button" className="btn-social">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M11.4 24H0V12.6L11.4 0H24v11.4L12.6 24h-1.2z"
-                      fill="#F25022"
-                      opacity="0"
-                    />
-                    <rect x="1" y="1" width="10" height="10" fill="#F25022" />
-                    <rect x="13" y="1" width="10" height="10" fill="#7FBA00" />
-                    <rect x="1" y="13" width="10" height="10" fill="#00A4EF" />
-                    <rect x="13" y="13" width="10" height="10" fill="#FFB900" />
-                  </svg>
-                  Microsoft
-                </button>
-              </div>
-
-              <div className="auth-switch">
-                No account?{" "}
-                <button type="button" onClick={() => switchTab("signup")}>
-                  Create one free
-                </button>
-              </div>
-            </div>
+            <LoginForm
+              loginForm={loginForm}
+              onLogin={onLogin}
+              showLoginPw={showLoginPw}
+              setShowLoginPw={setShowLoginPw}
+              loading={loading}
+              serverError={serverError}
+              switchTab={switchTab}
+            />
           )}
 
           {/* ═══ SIGNUP VIEW ═══ */}
           {tab === "signup" && (
-            <div>
-              <h2 className="auth-title">Create your account</h2>
-              <p className="auth-sub">
-                Get started with HelpDeskXpert — free to try.
-              </p>
+            <RegisterForm
+              regForm={regForm}
+              onRegister={onRegister}
+              showRegPw={showRegPw}
+              setShowRegPw={setShowRegPw}
+              showRegCpw={showRegCpw}
+              setShowRegCpw={setShowRegCpw}
+              agreedTerms={agreedTerms}
+              setAgreedTerms={setAgreedTerms}
+              termsError={termsError}
+              loading={loading}
+              serverError={serverError}
+              serverSuccess={serverSuccess}
+              switchTab={switchTab}
+            />
+          )}
 
-              {serverError && (
-                <div className="alert alert-error">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  <span>{serverError}</span>
-                </div>
-              )}
-
-              {serverSuccess && (
-                <div className="alert alert-success">
-                  <svg viewBox="0 0 24 24">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  <span>{serverSuccess}</span>
-                </div>
-              )}
-
-              <form onSubmit={regForm.handleSubmit(onRegister)}>
-                {/* Name row */}
-                <div className="field-row">
-                  <div
-                    className={`field${regForm.formState.errors.firstName ? " invalid" : ""}`}
-                  >
-                    <label>
-                      First name <span className="req">*</span>
-                    </label>
-                    <div className="input-wrap">
-                      <input
-                        type="text"
-                        placeholder="Sarah"
-                        {...regForm.register("firstName")}
-                      />
-                    </div>
-                    {regForm.formState.errors.firstName && (
-                      <div className="err-text">
-                        {regForm.formState.errors.firstName.message}
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    className={`field${regForm.formState.errors.lastName ? " invalid" : ""}`}
-                  >
-                    <label>
-                      Last name <span className="req">*</span>
-                    </label>
-                    <div className="input-wrap">
-                      <input
-                        type="text"
-                        placeholder="Johnson"
-                        {...regForm.register("lastName")}
-                      />
-                    </div>
-                    {regForm.formState.errors.lastName && (
-                      <div className="err-text">
-                        {regForm.formState.errors.lastName.message}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div
-                  className={`field${regForm.formState.errors.email ? " invalid" : ""}`}
-                >
-                  <label>
-                    Work email <span className="req">*</span>
-                  </label>
-                  <div className="input-wrap">
-                    <input
-                      type="email"
-                      placeholder="sarah@yourcompany.com"
-                      {...regForm.register("email")}
-                    />
-                    <span className="input-icon">
-                      <svg viewBox="0 0 24 24">
-                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                      </svg>
-                    </span>
-                  </div>
-                  {regForm.formState.errors.email && (
-                    <div className="err-text">
-                      {regForm.formState.errors.email.message}
-                    </div>
-                  )}
-                </div>
-
-                {/* Company */}
-                <div className="field">
-                  <label>Company</label>
-                  <div className="input-wrap">
-                    <input
-                      type="text"
-                      placeholder="Acme Inc."
-                      {...regForm.register("company")}
-                    />
-                  </div>
-                </div>
-
-                {/* Password */}
-                <div
-                  className={`field${regForm.formState.errors.password ? " invalid" : ""}`}
-                >
-                  <label>
-                    Password <span className="req">*</span>
-                  </label>
-                  <div className="input-wrap">
-                    <input
-                      type={showRegPw ? "text" : "password"}
-                      placeholder="Min. 8 chars, 1 uppercase, 1 number"
-                      {...regForm.register("password")}
-                    />
-                    <button
-                      className="toggle-pw"
-                      type="button"
-                      tabIndex={-1}
-                      onClick={() => setShowRegPw(!showRegPw)}
-                    >
-                      {showRegPw ? <EyeClosed /> : <EyeOpen />}
-                    </button>
-                  </div>
-                  {regForm.formState.errors.password && (
-                    <div className="err-text">
-                      {regForm.formState.errors.password.message}
-                    </div>
-                  )}
-                  {regPw.length > 0 && (
-                    <div className="pw-strength">
-                      <div className="pw-bars">
-                        {[1, 2, 3, 4].map((i) => (
-                          <div
-                            key={i}
-                            className="pw-bar"
-                            style={{
-                              background:
-                                i <= strength.score
-                                  ? strength.color
-                                  : undefined,
-                            }}
-                          />
-                        ))}
-                      </div>
-                      <div
-                        className="pw-label"
-                        style={{ color: strength.color }}
-                      >
-                        {strength.label}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Confirm password */}
-                <div
-                  className={`field${regForm.formState.errors.confirmPassword ? " invalid" : ""}`}
-                >
-                  <label>
-                    Confirm password <span className="req">*</span>
-                  </label>
-                  <div className="input-wrap">
-                    <input
-                      type={showRegCpw ? "text" : "password"}
-                      placeholder="Repeat password"
-                      {...regForm.register("confirmPassword")}
-                    />
-                    <button
-                      className="toggle-pw"
-                      type="button"
-                      tabIndex={-1}
-                      onClick={() => setShowRegCpw(!showRegCpw)}
-                    >
-                      {showRegCpw ? <EyeClosed /> : <EyeOpen />}
-                    </button>
-                  </div>
-                  {regForm.formState.errors.confirmPassword && (
-                    <div className="err-text">
-                      {regForm.formState.errors.confirmPassword.message}
-                    </div>
-                  )}
-                </div>
-
-                {/* Terms */}
-                <div className="check-row">
-                  <input
-                    type="checkbox"
-                    id="terms"
-                    checked={agreedTerms}
-                    onChange={(e) => {
-                      setAgreedTerms(e.target.checked);
-                      if (e.target.checked) setTermsError(false);
-                    }}
-                  />
-                  <label htmlFor="terms">
-                    I agree to the{" "}
-                    <Link href="/terms-of-service">Terms of Service</Link> and{" "}
-                    <Link href="/privacy-policy">Privacy Policy</Link>
-                  </label>
-                </div>
-                {termsError && (
-                  <div
-                    className="err-text"
-                    style={{ marginTop: "-0.7rem", marginBottom: "0.8rem" }}
-                  >
-                    You must accept the terms.
-                  </div>
-                )}
-
-                <button
-                  className="btn-primary w-full"
-                  type="submit"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span className="spinner" /> Please wait…
-                    </>
-                  ) : (
-                    "Create Account"
-                  )}
-                </button>
-              </form>
-
-              <div className="divider">or sign up with</div>
-
-              <div className="social-buttons">
-                <button type="button" className="btn-social">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-                      fill="#4285F4"
-                    />
-                    <path
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                      fill="#34A853"
-                    />
-                    <path
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                      fill="#FBBC05"
-                    />
-                    <path
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                      fill="#EA4335"
-                    />
-                  </svg>
-                  Google
-                </button>
-                <button type="button" className="btn-social">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M11.4 24H0V12.6L11.4 0H24v11.4L12.6 24h-1.2z"
-                      fill="#F25022"
-                      opacity="0"
-                    />
-                    <rect x="1" y="1" width="10" height="10" fill="#F25022" />
-                    <rect x="13" y="1" width="10" height="10" fill="#7FBA00" />
-                    <rect x="1" y="13" width="10" height="10" fill="#00A4EF" />
-                    <rect x="13" y="13" width="10" height="10" fill="#FFB900" />
-                  </svg>
-                  Microsoft
-                </button>
-              </div>
-
-              <div className="auth-switch">
-                Already have an account?{" "}
-                <button type="button" onClick={() => switchTab("login")}>
-                  Sign in
-                </button>
-              </div>
-            </div>
+          {/* ═══ FORGOT PASSWORD VIEW ═══ */}
+          {tab === "forgot" && (
+            <ForgotPassword
+              forgotStep={forgotStep}
+              forgotEmail={forgotEmail}
+              forgotOtp={forgotOtp}
+              forgotError={forgotError}
+              forgotSuccess={forgotSuccess}
+              forgotLoading={forgotLoading}
+              onForgotEmail={onForgotEmail}
+              onForgotOtp={onForgotOtp}
+              onResetPassword={onResetPassword}
+              setForgotStep={setForgotStep}
+              setForgotError={setForgotError}
+              switchTab={switchTab}
+            />
           )}
         </div>
       </div>
