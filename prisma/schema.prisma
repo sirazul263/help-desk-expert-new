@@ -69,8 +69,10 @@ model User {
     resetTokens       ResetToken[]
     invoices          Invoice[]
     chatConversations ChatConversation[]
-    adminMessages     ChatMessage[]
-    reviews           Review[]
+    adminMessages      ChatMessage[]
+    reviews            Review[]
+    sentEmails         SentEmail[]
+    promoCampaigns     PromotionalCampaign[]
 
     @@map("users")
 }
@@ -261,4 +263,53 @@ model ChatMessage {
     @@index([conversationId])
     @@index([adminId])
     @@map("chat_messages")
+}
+
+// ── Sent Emails ───────────────────────────────────────
+model SentEmail {
+    id      String   @id @default(cuid())
+    to      String
+    subject String
+    body    String   @db.Text
+    sentBy  String   @map("sent_by")
+    sentAt  DateTime @default(now()) @map("sent_at")
+    status  String   @default("sent") // sent | failed
+    error   String?  @db.Text
+
+    admin User @relation(fields: [sentBy], references: [id], onDelete: Cascade)
+
+    @@index([sentBy])
+    @@index([sentAt])
+    @@map("sent_emails")
+}
+
+// ── Promotional Campaigns ─────────────────────────────
+model PromotionalCampaign {
+    id        String   @id @default(cuid())
+    subject   String
+    sentBy    String   @map("sent_by")
+    sentAt    DateTime @default(now()) @map("sent_at")
+    total     Int      @default(0)
+    succeeded Int      @default(0)
+    failed    Int      @default(0)
+
+    admin      User                     @relation(fields: [sentBy], references: [id], onDelete: Cascade)
+    recipients PromoCampaignRecipient[]
+
+    @@index([sentBy])
+    @@index([sentAt])
+    @@map("promotional_campaigns")
+}
+
+model PromoCampaignRecipient {
+    id         String  @id @default(cuid())
+    campaignId String  @map("campaign_id")
+    email      String
+    status     String  @default("sent") // sent | failed
+    error      String? @db.Text
+
+    campaign PromotionalCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+    @@index([campaignId])
+    @@map("promo_campaign_recipients")
 }

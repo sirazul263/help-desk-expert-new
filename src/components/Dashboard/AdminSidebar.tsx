@@ -88,6 +88,23 @@ export default async function AdminSidebar() {
         </Link>
       </div>
 
+      <div className="adm-nav-section">
+        <div className="adm-nav-label">Emails</div>
+        <Link href="/admin/emails" className="adm-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <polyline points="2,4 12,13 22,4" />
+          </svg>
+          <span>Sent Emails</span>
+        </Link>
+        <Link href="/admin/emails/promotional" className="adm-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+          <span>Promotional</span>
+        </Link>
+      </div>
+
       <div className="adm-sidebar-footer">
         <div className="adm-user-name">{session.user.name}</div>
         <div className="adm-user-email">{session.user.email}</div>
