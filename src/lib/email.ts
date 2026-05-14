@@ -11,7 +11,7 @@ interface SendMailOptions {
 export async function sendMail({ to, subject, html }: SendMailOptions) {
   const { data, error } = await resend.emails.send({
     from:
-      process.env.EMAIL_FROM || "HelpDeskXpert <noreply@helpdeskexpert.com>",
+      process.env.EMAIL_FROM || "HelpDeskXpert <contact@helpdeskexpert.com>",
     to,
     subject,
     html,
@@ -73,7 +73,7 @@ export function buildAdminEmail(subject: string, body: string): string {
                     <div>HelpDeskXpert — Customer Support</div>
                     <div>© ${new Date().getFullYear()} HelpDeskXpert</div>
                   </div>
-                  <div style="margin-top:8px;color:#9aa7b6;font-size:12px;">Support: <a href="mailto:support@helpdeskexpert.com" style="color:#0b75ff;text-decoration:none;">support@helpdeskexpert.com</a></div>
+                  <div style="margin-top:8px;color:#9aa7b6;font-size:12px;">Support: <a href="mailto:contact@helpdeskexpert.com" style="color:#0b75ff;text-decoration:none;">contact@helpdeskexpert.com</a></div>
                 </td>
               </tr>
             </table>
@@ -363,7 +363,7 @@ export function buildOTPEmail(name: string, otp: string): string {
                     <div>HelpDeskXpert — <span style="white-space:nowrap;">Customer Support</span></div>
                     <div style="opacity:0.9">© ${new Date().getFullYear()} HelpDeskXpert</div>
                   </div>
-                  <div style="margin-top:8px;color:#9aa7b6;font-size:12px;">Support: <a href="mailto:support@helpdeskexpert.com" style="color:#0b75ff;text-decoration:none;">support@helpdeskexpert.com</a></div>
+                  <div style="margin-top:8px;color:#9aa7b6;font-size:12px;">Support: <a href="mailto:contact@helpdeskexpert.com" style="color:#0b75ff;text-decoration:none;">contact@helpdeskexpert.com</a></div>
                 </td>
               </tr>
             </table>
