@@ -3,7 +3,7 @@
   color: #1a1a2e;
   border-radius: var(--radius);
   padding: 2.5rem;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 13px;
   line-height: 1.65;
   max-width: 760px;
@@ -27,7 +27,7 @@
   line-height: 1.7;
 }
 .inv-brand {
-  font-family: "Syne", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 800;
   font-size: 1.4rem;
   color: #0e0f13;
@@ -39,7 +39,7 @@
   display: block;
   font-size: 0.75rem;
   font-weight: 400;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #777;
   margin-top: 3px;
 }
@@ -47,7 +47,7 @@
   text-align: right;
 }
 .inv-meta-block .inv-num {
-  font-family: "Syne", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 800;
   font-size: 1.15rem;
   color: #0e0f13;
@@ -151,7 +151,7 @@
   color: #555;
 }
 .inv-total-row.grand-total {
-  font-family: "Syne", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 800;
   font-size: 1.05rem;
   color: #0e0f13;

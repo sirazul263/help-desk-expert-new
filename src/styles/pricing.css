@@ -94,7 +94,7 @@
   margin-bottom: 1.25rem;
 }
 .price-amount {
-  font-family: "Syne", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 2.6rem;
   font-weight: 800;
   line-height: 1;
@@ -131,7 +131,7 @@
   margin-top: 1px;
 }
 .feat-list li .no {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -144,7 +144,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   text-decoration: none;
 }
 .btn-filled {
@@ -185,7 +185,7 @@
   color: var(--color-muted);
 }
 .addon-price {
-  font-family: "Syne", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 800;
   font-size: 1.1rem;
   color: var(--color-brand);

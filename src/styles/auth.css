@@ -74,7 +74,7 @@
   z-index: 1;
 }
 .brand-logo {
-  font-family: var(--font-syne);
+  font-family: var(--font-inter);
   font-weight: 800;
   font-size: 1.5rem;
   margin-bottom: 2.5rem;
@@ -140,7 +140,7 @@
 }
 .b-stat strong {
   display: block;
-  font-family: var(--font-syne);
+  font-family: var(--font-inter);
   font-size: 1.5rem;
   font-weight: 800;
 }
@@ -155,7 +155,7 @@
   max-width: 360px;
 }
 .auth-logo {
-  font-family: var(--font-syne);
+  font-family: var(--font-inter);
   font-weight: 800;
   font-size: 1.1rem;
   text-align: center;
@@ -235,7 +235,7 @@
 .input-wrap input {
   width: 100%;
   padding: 10px 38px 10px 12px;
-  background: #161820;
+  background: var(--color-input-bg);
   border: 1px solid var(--color-border);
   border-radius: 9px;
   color: var(--color-text);
@@ -248,7 +248,7 @@
 }
 .input-wrap input:focus {
   border-color: rgba(255, 92, 53, 0.5);
-  background: #1a1c2a;
+  background: #f0f2f7;
 }
 .input-wrap input::placeholder {
   color: rgba(157, 160, 179, 0.5);
@@ -421,9 +421,9 @@
     background 0.2s;
 }
 .btn-social:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(0, 0, 0, 0.12);
   color: var(--color-text);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.03);
 }
 .btn-social svg {
   width: 16px;
@@ -460,14 +460,14 @@
   line-height: 1.5;
 }
 .alert-error {
-  background: rgba(255, 79, 79, 0.1);
-  border: 1px solid rgba(255, 79, 79, 0.25);
-  color: #ff8a8a;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: var(--color-error);
 }
 .alert-success {
-  background: rgba(46, 204, 138, 0.1);
-  border: 1px solid rgba(46, 204, 138, 0.25);
-  color: #4de8a8;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: var(--color-success);
 }
 .alert svg {
   width: 14px;
@@ -485,7 +485,7 @@
 .spinner {
   width: 15px;
   height: 15px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
@@ -585,7 +585,7 @@
   border-color: var(--color-brand);
 }
 .auth-input::placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(0, 0, 0, 0.3);
 }
 .auth-input-otp {
   text-align: center;
@@ -627,7 +627,7 @@
 }
 .auth-btn-ghost:hover {
   color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(0, 0, 0, 0.2);
 }
 .auth-link {
   color: var(--color-brand);

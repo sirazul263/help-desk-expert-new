@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import "../styles/auth.css";
 import "../styles/dashboard.css";
@@ -18,16 +18,10 @@ import NextTopLoader from "nextjs-toploader";
 import ScrollToTop from "../components/ScrollToTop";
 import Analytics from "../components/Analytics";
 
-const syne = Syne({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-syne",
-  weight: ["400", "700", "800"],
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-dm",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
 });
 
@@ -114,7 +108,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${syne.variable} ${dmSans.variable}`}
+      className={inter.variable}
     >
       <body>
         <Analytics />

@@ -59,11 +59,11 @@ export default function Navbar({ user }: { user?: NavUser | null }) {
         ))}
       </ul>
 
-      <div className="nav-ctas">
+      <div className="nav-ctas ">
         {user ? (
           <Link
             href={dashboardHref}
-            className="flex items-center gap-2 pl-1 pr-4 py-1 border border-border rounded-full bg-white/[0.04] hover:bg-white/[0.08] transition-colors cursor-pointer"
+            className="flex min-w-35 items-center gap-2 pl-1 pr-4 py-1 border border-border rounded-full bg-white/[0.04] hover:bg-white/[0.08] transition-colors cursor-pointer"
           >
             {user.image ? (
               <Image

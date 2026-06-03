@@ -114,7 +114,7 @@
 }
 .toc-list a:hover {
   color: var(--color-text);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.04);
   text-decoration: none;
 }
 .toc-list a.active {
@@ -157,13 +157,13 @@
   color: var(--color-text);
 }
 .legal-section p {
-  color: #c8cdd8;
+  color: var(--color-muted);
   margin-bottom: 0.9rem;
   line-height: 1.8;
 }
 .legal-section ul,
 .legal-section ol {
-  color: #c8cdd8;
+  color: var(--color-muted);
   padding-left: 1.4rem;
   margin-bottom: 0.9rem;
 }
@@ -229,8 +229,8 @@
 }
 .legal-table td {
   padding: 0.7rem 0.85rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  color: #c8cdd8;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-muted);
   vertical-align: top;
   line-height: 1.55;
 }
@@ -332,7 +332,7 @@
 .cm-btn {
   padding: 6px 14px;
   border-radius: 7px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
@@ -354,7 +354,7 @@
   color: var(--color-muted);
 }
 .cm-btn-reject:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(0, 0, 0, 0.2);
   color: var(--color-text);
 }
 .cm-row {
@@ -401,7 +401,7 @@
 .toggle-slider {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 11px;
   cursor: pointer;
   transition: background 0.2s;

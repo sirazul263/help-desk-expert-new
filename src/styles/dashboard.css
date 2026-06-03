@@ -12,8 +12,8 @@
 
 .dash-sidebar {
   width: 256px;
-  background: linear-gradient(180deg, #0d0f1a 0%, #12141f 55%, #161824 100%);
-  border-right: 1px solid rgba(255, 255, 255, 0.055);
+  background: #ffffff;
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -37,7 +37,7 @@
 /* ── Brand block ── */
 .dash-sidebar-brand {
   padding: 1.5rem 1.4rem 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+  border-bottom: 1px solid var(--color-border);
   position: relative;
   z-index: 1;
   display: flex;
@@ -46,7 +46,7 @@
 }
 
 .dash-logo {
-  font-family: var(--font-syne);
+  font-family: var(--font-inter);
   font-weight: 800;
   font-size: 1.18rem;
   color: var(--color-text);
@@ -85,7 +85,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(157, 160, 179, 0.4);
+  color: rgba(107, 114, 128, 0.6);
   padding: 0 1.4rem;
   margin-bottom: 0.4rem;
 }
@@ -105,13 +105,13 @@
   border-radius: 9px;
   font-size: 0.875rem;
   font-weight: 500;
-  color: rgba(157, 160, 179, 0.75);
+  color: var(--color-muted);
   transition: background 0.15s, color 0.15s;
   border-left: 2px solid transparent;
   position: relative;
 }
 .dash-nav-link:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.04);
   color: var(--color-text);
 }
 .dash-nav-link.active {
@@ -138,7 +138,7 @@
 
 /* ── Footer / user card ── */
 .dash-sidebar-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.055);
+  border-top: 1px solid var(--color-border);
   padding: 1rem 0.9rem 1.1rem;
   position: relative;
   z-index: 1;
@@ -153,8 +153,8 @@
   gap: 0.7rem;
   padding: 0.6rem 0.5rem;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--color-border);
 }
 
 .dash-user-avatar {
@@ -165,7 +165,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-syne);
+  font-family: var(--font-inter);
   font-weight: 800;
   font-size: 0.75rem;
   color: #fff;
@@ -202,7 +202,7 @@
   gap: 0.45rem;
   padding: 0.45rem;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   color: var(--color-muted);
   font-size: 0.78rem;
@@ -258,7 +258,7 @@
 .dash-stat-value {
   font-size: 2rem;
   font-weight: 700;
-  font-family: var(--font-syne);
+  font-family: var(--font-inter);
   color: var(--color-brand);
 }
 .dash-stat-value-sm {
@@ -331,7 +331,7 @@
   border-bottom: none;
 }
 .dash-table tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 /* ── Responsive ── */
