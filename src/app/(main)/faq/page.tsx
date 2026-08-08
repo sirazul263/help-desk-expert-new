@@ -48,7 +48,7 @@ const faqSchema = {
       name: "Can I try before I commit?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes — we offer a 2-week trial period. If you're not fully satisfied with your agent's performance during the trial, you can cancel without charge or request a replacement agent.",
+        text: "Yes — we offer a 1-week trial period. If you're not fully satisfied with your agent's performance during the trial, you can cancel without charge or request a replacement agent.",
       },
     },
     {

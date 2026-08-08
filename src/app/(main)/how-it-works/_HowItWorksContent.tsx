@@ -78,7 +78,7 @@ const faqs = [
   },
   {
     q: "Can I trial an agent before committing?",
-    a: "Yes — we offer a 2-week trial period. If you're not satisfied with the agent's performance, we'll replace them at no charge.",
+    a: "Yes — we offer a 1-week trial period. If you're not satisfied with the agent's performance, we'll replace them at no charge.",
   },
   {
     q: "What happens if my agent goes on leave?",

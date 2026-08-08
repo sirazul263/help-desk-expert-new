@@ -15,7 +15,7 @@ const contactItems = [
   { icon: Phone, label: "Phone", value: "+1 (800) 555-0199" },
   { icon: Mail, label: "Email", value: "contact@helpdeskexpert.com" },
   { icon: MapPin, label: "Headquarters", value: "San Francisco, CA — remote-first globally" },
-  { icon: Clock, label: "Response Time", value: "We reply within 2 business hours" },
+  { icon: Clock, label: "Response Time", value: "Within 10 minutes" },
 ];
 
 const trustItems = [

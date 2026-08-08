@@ -6,6 +6,7 @@ import {
   MessageSquare,
   Mail,
   Phone,
+  PhoneCall,
   Clock,
   Users,
   Activity,
@@ -79,6 +80,17 @@ const coreServices = [
       "Ticket resolution rate tracking",
       "Monthly strategy review call",
       "Agent coaching and improvement plans",
+    ],
+  },
+  {
+    icon: PhoneCall,
+    title: "Calling Support",
+    desc: "Phone help for users who'd rather talk it through — quick answers, clear guidance, and fast resolutions over the call.",
+    features: [
+      "Inbound and outbound call handling",
+      "Guided troubleshooting over the phone",
+      "Call back scheduling for busy users",
+      "Warm handoffs to the right team",
     ],
   },
 ];
